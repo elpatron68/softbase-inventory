@@ -24,10 +24,10 @@ Public Class Database
         Next
     End Sub
 
-    Public Shared Function LoadSoftwareListForDevice(ByVal device As Device) As List(Of software)
+    Public Shared Function LoadSoftwareListForDevice(ByVal device As Device) As (List(Of software), Timestamp As String)
         Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
         Dim Softlist As List(Of software) = New List(Of software)
-
+        Dim ts As String = GetTimeStamp(DeviceId)
         Dim sqlite_conn As SQLiteConnection
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
@@ -40,7 +40,7 @@ Public Class Database
             soft.Version = r("VERSION")
             Softlist.Add(soft)
         End While
-        Return Softlist
+        Return (Softlist, ts)
     End Function
 
     Public Shared Sub AddDevice(ByVal device As Device)
@@ -65,6 +65,20 @@ Public Class Database
 
     Private Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
 
+    End Function
+
+    Private Shared Function GetTimeStamp(ByVal MachineID) As String
+        Dim sqlite_conn As SQLiteConnection
+        Dim ts As String = String.Empty
+        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+        sqlite_conn.Open()
+        Dim sqlite_cmd = sqlite_conn.CreateCommand()
+        sqlite_cmd.CommandText = $"SELECT MACHINEID, LASTUPDATE FROM DEVICES WHERE MACHINEID = {MachineID}"
+        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+        While r.Read
+            ts = r("LASTUPDATE")
+        End While
+        Return ts
     End Function
 
     Private Shared Sub DeleteTable(ByVal TableName As String)
