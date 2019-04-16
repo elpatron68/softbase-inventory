@@ -141,6 +141,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database.vb" />
     <Compile Include="Device.vb" />
     <Compile Include="GetWMI_Info.vb" />
     <Compile Include="PdfExport.vb" />

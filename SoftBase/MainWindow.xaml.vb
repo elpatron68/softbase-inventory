@@ -66,28 +66,8 @@ Class MainWindow
     End Function
 
     Private Sub BtnSaveDb_Click(sender As Object, e As RoutedEventArgs)
-        Dim sqlite_conn As SQLiteConnection
-
-        ' create a new database connection:
-        sqlite_conn = New SQLiteConnection("Data Source=database.sqlite;Version=3;")
-
-        ' open the connection:
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SOFTWARE] (
-                                  [Id] INTEGER PRIMARY KEY,
-                                  [NAME] NVARCHAR(2048) NULL,
-                                  [VERSION] NVARCHAR(2048) NULL)"
-        sqlite_cmd.ExecuteNonQuery()
-        'sqlite_cmd.CommandText = "DELETE FROM SOFTWARE"
-        'sqlite_cmd.ExecuteNonQuery()
-
-        For Each soft In Softlist
-            sqlite_cmd.CommandText = $"INSERT INTO SOFTWARE (NAME, VERSION) VALUES ('{soft.Name}', '{soft.Version}');"
-            sqlite_cmd.ExecuteNonQuery()
-        Next
+        Database.SaveList(Softlist)
         LblStatus.Content = "Database saved."
-        PdfExport.CreatePdf("test.pdf", Softlist)
     End Sub
 
     Private Sub BtnExportPDF_Click(sender As Object, e As RoutedEventArgs)
