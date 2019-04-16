@@ -3,8 +3,8 @@
     Public Property Hostname As String
     Public Property Description As String
 
-    Public Sub New(ByVal Uuid As String)
-        Me.Uuid = Uuid
+    Public Sub New()
+        Me.Uuid = GetWMI_Info.GetUUID()
         Me.Hostname = System.Environment.MachineName
     End Sub
 End Class

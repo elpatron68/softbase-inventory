@@ -5,14 +5,16 @@ Imports MahApps.Metro.Controls
 Imports NLog
 Class MainWindow
     Private Shared Softlist As List(Of software) = New List(Of software)
+    Private Shared Device As Device = New Device
     Private _cancelWork As Action
 
     Public Sub New()
         InitializeComponent()
-        Dim uuid = GetWMI_Info.GetUUID()
+        lbDeviceUUID.Content = Device.Uuid
+        lbDeviceName.Content = Device.Hostname
     End Sub
 
-    Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
         LblStatus.Content = "Loading list of installed programs, this may take a while, please be patient."
         LoadSoftwareList()
     End Sub
@@ -63,7 +65,7 @@ Class MainWindow
         Return Nothing
     End Function
 
-    Private Sub Button_Click_1(sender As Object, e As RoutedEventArgs)
+    Private Sub BtnSaveDb_Click(sender As Object, e As RoutedEventArgs)
         Dim sqlite_conn As SQLiteConnection
 
         ' create a new database connection:
@@ -88,7 +90,7 @@ Class MainWindow
         PdfExport.CreatePdf("test.pdf", Softlist)
     End Sub
 
-    Private Sub Button_Click_2(sender As Object, e As RoutedEventArgs)
+    Private Sub BtnExportPDF_Click(sender As Object, e As RoutedEventArgs)
         PdfExport.CreatePdf("test.pdf", Softlist)
         LblStatus.Content = "Software list exported to 'test.pdf'"
     End Sub
