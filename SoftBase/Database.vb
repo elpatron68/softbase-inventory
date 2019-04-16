@@ -32,7 +32,7 @@ Public Class Database
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
+        sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
         Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
         While r.Read
             Dim soft As New software
@@ -64,7 +64,17 @@ Public Class Database
     End Sub
 
     Private Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
-
+        Dim sqlite_conn As SQLiteConnection
+        Dim id As Integer = 0
+        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+        sqlite_conn.Open()
+        Dim sqlite_cmd = sqlite_conn.CreateCommand()
+        sqlite_cmd.CommandText = $"SELECT Id, MACHINEID FROM DEVICES WHERE MACHINEID = {uuid}"
+        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+        While r.Read
+            id = r("LASTUPDATE")
+        End While
+        Return id
     End Function
 
     Private Shared Function GetTimeStamp(ByVal MachineID) As String
