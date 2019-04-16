@@ -5,7 +5,6 @@ Imports iText.Kernel.Font
 Imports iText.Kernel.Pdf
 Imports iText.Layout
 Imports iText.Layout.Element
-Imports iText.Test.Attributes
 
 Public Class PdfExport
 
