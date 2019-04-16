@@ -5,6 +5,7 @@ Public Class Database
     Public Shared Sub SaveList(ByVal Softlist As List(Of software), ByVal device As Device)
         Dim sqlite_conn As SQLiteConnection
         Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
+
         ' create a new database connection:
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
 
@@ -34,12 +35,14 @@ Public Class Database
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
         sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
         Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-        While r.Read
-            Dim soft As New software
-            soft.Name = r("NAME")
-            soft.Version = r("VERSION")
-            Softlist.Add(soft)
-        End While
+        If r.HasRows Then
+            While r.Read
+                Dim soft As New software
+                soft.Name = r("NAME")
+                soft.Version = r("VERSION")
+                Softlist.Add(soft)
+            End While
+        End If
         Return (Softlist, ts)
     End Function
 
@@ -59,21 +62,29 @@ Public Class Database
                                   [NAME] NVARCHAR(2048) NULL,
                                   [LASTUPDATE] NVARCHAR(2048) NULL)"
         sqlite_cmd.ExecuteNonQuery()
-        sqlite_cmd.CommandText = $"INSERT INTO SOFTWARE (MACHINEID, NAME, LASTUPDATE) VALUES ('{device.Uuid}', '{device.Hostname}', '{timestamp}');"
-
+        sqlite_cmd.CommandText = $"INSERT INTO DEVICES (MACHINEID, NAME, LASTUPDATE) VALUES ('{device.Uuid}', '{device.Hostname}', '{timestamp}');"
+        sqlite_cmd.ExecuteNonQuery()
     End Sub
 
-    Private Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
+    Public Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
         Dim sqlite_conn As SQLiteConnection
         Dim id As Integer = 0
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT Id, MACHINEID FROM DEVICES WHERE MACHINEID = {uuid}"
-        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-        While r.Read
-            id = r("LASTUPDATE")
-        End While
+        sqlite_cmd.CommandText = $"SELECT Id, MACHINEID FROM DEVICES WHERE MACHINEID LIKE '{uuid}'"
+        Try
+            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+            If r.HasRows Then
+                While r.Read
+                    id = r("Id")
+                End While
+            Else
+                id = -1
+            End If
+        Catch ex As Exception
+            id = -1
+        End Try
         Return id
     End Function
 

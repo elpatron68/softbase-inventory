@@ -13,8 +13,8 @@
             <ColumnDefinition Width="357*"/>
         </Grid.ColumnDefinitions>
         <Label Content="SoftBase Inventory" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <Label x:Name="lbDeviceUUID" Content="Device UUID" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" FontSize="12"/>
-        <Label x:Name="lbDeviceName" Content="Device name" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <Label x:Name="lbDeviceUUID" Content="Device UUID" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" FontSize="12"/>
+        <Label x:Name="lbDeviceName" Content="Device name" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" FontSize="12"/>
         <Button x:Name="BtnRetrieve" Content="Retrieve installed software" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Width="180" Click="BtnRetrieve_Click"/>
         <Button x:Name="BtnSaveDb" Content="Save to database" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="180" Click="BtnSaveDb_Click"/>
         <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="180" Click="BtnExportPDF_Click"/>

@@ -12,6 +12,12 @@ Class MainWindow
         InitializeComponent()
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
+        Dim dbid = Database.GetIdFromUuid(Device.Uuid)
+        If dbid = -1 Then
+            Database.AddDevice(Device)
+        Else
+            MsgBox(dbid.ToString)
+        End If
     End Sub
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
