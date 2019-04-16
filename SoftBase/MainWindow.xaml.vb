@@ -66,7 +66,7 @@ Class MainWindow
     End Function
 
     Private Sub BtnSaveDb_Click(sender As Object, e As RoutedEventArgs)
-        Database.SaveList(Softlist)
+        Database.SaveList(Softlist, Device)
         LblStatus.Content = "Database saved."
     End Sub
 

@@ -13,7 +13,7 @@ Public Class Database
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
         sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SOFTWARE] (
                                   [Id] INTEGER PRIMARY KEY,
-                                  [MACHINEID] NVARCHAR(2048) NULL,
+                                  [MACHINEID] INTEGER NOT NULL,
                                   [NAME] NVARCHAR(2048) NULL,
                                   [VERSION] NVARCHAR(2048) NULL)"
         sqlite_cmd.ExecuteNonQuery()
@@ -24,10 +24,24 @@ Public Class Database
         Next
     End Sub
 
-    Public Shared Sub LoadListForDevice(ByVal device As Device)
+    Public Shared Function LoadSoftwareListForDevice(ByVal device As Device) As List(Of software)
         Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
+        Dim Softlist As List(Of software) = New List(Of software)
 
-    End Sub
+        Dim sqlite_conn As SQLiteConnection
+        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+        sqlite_conn.Open()
+        Dim sqlite_cmd = sqlite_conn.CreateCommand()
+        sqlite_cmd.CommandText = $"SELECT NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
+        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+        While r.Read
+            Dim soft As New software
+            soft.Name = r("NAME")
+            soft.Version = r("VERSION")
+            Softlist.Add(soft)
+        End While
+        Return Softlist
+    End Function
 
     Public Shared Sub AddDevice(ByVal device As Device)
         Dim sqlite_conn As SQLiteConnection
