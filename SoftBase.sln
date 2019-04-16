@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SoftBase", "SoftBase\SoftBase.vbproj", "{34470779-E635-4E9C-AF0D-92278315F84C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34470779-E635-4E9C-AF0D-92278315F84C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34470779-E635-4E9C-AF0D-92278315F84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34470779-E635-4E9C-AF0D-92278315F84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34470779-E635-4E9C-AF0D-92278315F84C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91840FD6-2A61-44A6-97D0-D761BE56F247}
+	EndGlobalSection
+EndGlobal
