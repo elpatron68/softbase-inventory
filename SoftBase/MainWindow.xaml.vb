@@ -9,15 +9,9 @@ Class MainWindow
 
     Public Sub New()
         InitializeComponent()
-        DbDevices = Database.GetDevices()
-        If DbDevices.Count > 0 Then
-            For Each d In DbDevices
-                CbDevices.Items.Add(d.Hostname)
-            Next
-        End If
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
-
+        ReadDevices()
         ReadSoftwarelistFromDb()
     End Sub
 
@@ -105,6 +99,14 @@ Class MainWindow
         BtnExportXls.IsEnabled = enable
         BtnExportPDF.IsEnabled = enable
         CbDevices.IsEnabled = enable
+    End Sub
 
+    Private Sub ReadDevices()
+        DbDevices = Database.GetDevices()
+        If DbDevices.Count > 0 Then
+            For Each d In DbDevices
+                CbDevices.Items.Add(d.Hostname)
+            Next
+        End If
     End Sub
 End Class
