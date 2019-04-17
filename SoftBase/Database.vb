@@ -26,22 +26,26 @@ Public Class Database
     End Sub
 
     Public Shared Function LoadSoftwareListForDevice(ByVal device As Device) As (List(Of software), Timestamp As String)
-        Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
         Dim Softlist As List(Of software) = New List(Of software)
+        Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
         Dim ts As String = GetTimeStamp(DeviceId)
-        Dim sqlite_conn As SQLiteConnection
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
-        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-        If r.HasRows Then
-            While r.Read
-                Dim soft As New software
-                soft.Name = r("NAME")
-                soft.Version = r("VERSION")
-                Softlist.Add(soft)
-            End While
+
+        If DeviceId <> -1 Then
+            Dim sqlite_conn As SQLiteConnection
+            sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
+            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+            If r.HasRows Then
+                While r.Read
+                    Dim soft As New software
+                    soft.Name = r("NAME")
+                    soft.Version = r("VERSION")
+                    Softlist.Add(soft)
+                End While
+            End If
+
         End If
         Return (Softlist, ts)
     End Function

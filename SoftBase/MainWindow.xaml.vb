@@ -12,11 +12,12 @@ Class MainWindow
         InitializeComponent()
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
-        Dim dbid = Database.GetIdFromUuid(Device.Uuid)
-        If dbid = -1 Then
-            Database.AddDevice(Device)
-        Else
-            MsgBox(dbid.ToString)
+        Dim tmp = Database.LoadSoftwareListForDevice(Device)
+        Softlist = tmp.Item1
+        If Softlist.Count > 0 Then
+            Dim lastupdate = tmp.Timestamp
+            UpdateList(Softlist)
+            LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
         End If
     End Sub
 
@@ -81,4 +82,9 @@ Class MainWindow
         LblStatus.Content = "Software list exported to 'test.pdf'"
     End Sub
 
+    Private Sub UpdateList(ByVal softlist As List(Of software))
+        For Each soft In softlist
+            lbSoftware.Items.Add(soft.Name + " - Version " + soft.Version)
+        Next
+    End Sub
 End Class
