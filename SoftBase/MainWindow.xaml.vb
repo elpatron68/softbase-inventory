@@ -41,6 +41,7 @@ Class MainWindow
         BtnRetrieve.IsEnabled = False
         BtnSaveDb.IsEnabled = False
         BtnExportPDF.IsEnabled = False
+        CbDevices.IsEnabled = False
 
         Try
             Dim cancellationTokenSource = New CancellationTokenSource()
@@ -48,6 +49,7 @@ Class MainWindow
                                  BtnRetrieve.IsEnabled = True
                                  BtnSaveDb.IsEnabled = True
                                  BtnExportPDF.IsEnabled = True
+                                 CbDevices.IsEnabled = True
                                  cancellationTokenSource.Cancel()
                                  Return Nothing
                              End Function
@@ -63,6 +65,7 @@ Class MainWindow
         BtnRetrieve.IsEnabled = True
         BtnSaveDb.IsEnabled = True
         BtnExportPDF.IsEnabled = True
+        CbDevices.IsEnabled = True
         LblStatus.Content = "List of installed programs updated."
     End Sub
 

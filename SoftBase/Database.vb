@@ -37,7 +37,7 @@ Public Class Database
                 sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
                 sqlite_conn.Open()
                 Dim sqlite_cmd = sqlite_conn.CreateCommand()
-                sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId}"
+                sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE MACHINEID = {DeviceId} ORDER BY NAME"
                 Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
                 If r.HasRows Then
                     While r.Read
