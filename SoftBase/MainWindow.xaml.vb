@@ -24,6 +24,7 @@ Class MainWindow
     End Sub
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
+        lbSoftware.Items.Clear()
         LblStatus.Content = "Loading list of installed programs, this may take a while, please be patient."
         LoadSoftwareList()
     End Sub
@@ -31,12 +32,14 @@ Class MainWindow
     Private Async Sub LoadSoftwareList()
         BtnRetrieve.IsEnabled = False
         BtnSaveDb.IsEnabled = False
+        BtnExportPDF.IsEnabled = False
 
         Try
             Dim cancellationTokenSource = New CancellationTokenSource()
             Me._cancelWork = Function()
                                  BtnRetrieve.IsEnabled = True
                                  BtnSaveDb.IsEnabled = True
+                                 BtnExportPDF.IsEnabled = True
                                  cancellationTokenSource.Cancel()
                                  Return Nothing
                              End Function

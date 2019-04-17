@@ -126,7 +126,7 @@ Public Class Database
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
 
-        sqlite_cmd.CommandText = $"DELETE * FROM SOFTWARE WHERE Id = {MachineID}"
+        sqlite_cmd.CommandText = $"DELETE FROM SOFTWARE WHERE Id = {MachineID}"
         sqlite_cmd.ExecuteNonQuery()
     End Sub
 End Class
