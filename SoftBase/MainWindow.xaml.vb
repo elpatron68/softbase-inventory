@@ -19,16 +19,8 @@ Class MainWindow
         End If
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
-        BtnSaveDb.IsEnabled = False
-        Dim tmp = Database.LoadSoftwareListForDevice(Device)
-        Dim lastupdate = tmp.Timestamp
-        If lastupdate <> "-1" Then
-            Softlist = tmp.Item1
-            If Softlist.Count > 0 Then
-                UpdateList(Softlist)
-                LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
-            End If
-        End If
+
+        ReadSoftwarelistFromDb()
     End Sub
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
@@ -39,7 +31,7 @@ Class MainWindow
 
     Private Async Sub LoadSoftwareList()
         BtnRetrieve.IsEnabled = False
-        BtnSaveDb.IsEnabled = False
+        BtnExportXls.IsEnabled = False
         BtnExportPDF.IsEnabled = False
         CbDevices.IsEnabled = False
 
@@ -47,7 +39,7 @@ Class MainWindow
             Dim cancellationTokenSource = New CancellationTokenSource()
             Me._cancelWork = Function()
                                  BtnRetrieve.IsEnabled = True
-                                 BtnSaveDb.IsEnabled = True
+                                 BtnExportXls.IsEnabled = True
                                  BtnExportPDF.IsEnabled = True
                                  CbDevices.IsEnabled = True
                                  cancellationTokenSource.Cancel()
@@ -61,9 +53,12 @@ Class MainWindow
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+        Database.SaveList(Softlist, Device)
+        ReadSoftwarelistFromDb()
+
         UpdateList(Softlist)
         BtnRetrieve.IsEnabled = True
-        BtnSaveDb.IsEnabled = True
+        BtnExportXls.IsEnabled = True
         BtnExportPDF.IsEnabled = True
         CbDevices.IsEnabled = True
         LblStatus.Content = "List of installed programs updated."
@@ -96,10 +91,24 @@ Class MainWindow
         LblStatus.Content = "Software list exported to 'test.pdf'"
     End Sub
 
+    Private Sub BtnSaveXls_Click(sender As Object, e As RoutedEventArgs)
+
+    End Sub
     Private Sub UpdateList(ByVal softlist As List(Of software))
         lbSoftware.Items.Clear()
         For Each soft In softlist
             lbSoftware.Items.Add(soft.Name + " - Version " + soft.Version)
         Next
+    End Sub
+    Private Sub ReadSoftwarelistFromDb()
+        Dim tmp = Database.LoadSoftwareListForDevice(Device)
+        Dim lastupdate = tmp.Timestamp
+        If lastupdate <> "-1" Then
+            Softlist = tmp.Item1
+            If Softlist.Count > 0 Then
+                UpdateList(Softlist)
+                LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
+            End If
+        End If
     End Sub
 End Class
