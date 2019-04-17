@@ -2,15 +2,11 @@
 
 Public Class Database
     Private Const dbfile As String = "database.sqlite"
+    Private Shared sqlite_conn As SQLiteConnection
     Public Shared Sub SaveList(ByVal Softlist As List(Of software), ByVal device As Device)
         Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
         DeleteOldEntries(DeviceId)
-        Dim sqlite_conn As SQLiteConnection
-
-        ' create a new database connection:
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-
-        ' open the connection:
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
         sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SOFTWARE] (
@@ -33,7 +29,6 @@ Public Class Database
 
         If DeviceId <> -1 Then
             Try
-                Dim sqlite_conn As SQLiteConnection
                 sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
                 sqlite_conn.Open()
                 Dim sqlite_cmd = sqlite_conn.CreateCommand()
@@ -55,13 +50,8 @@ Public Class Database
     End Function
 
     Public Shared Sub AddDevice(ByVal device As Device)
-        Dim sqlite_conn As SQLiteConnection
         Dim timestamp As String = DateTime.Today.ToShortDateString
-
-        ' create a new database connection:
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-
-        ' open the connection:
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
         sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [DEVICES] (
@@ -75,7 +65,6 @@ Public Class Database
     End Sub
 
     Public Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
-        Dim sqlite_conn As SQLiteConnection
         Dim id As Integer = 0
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
@@ -98,7 +87,6 @@ Public Class Database
 
     Public Shared Function GetDevices() As List(Of Device)
         Dim devices As List(Of Device) = New List(Of Device)
-        Dim sqlite_conn As SQLiteConnection
         Dim id As Integer = 0
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
@@ -121,7 +109,6 @@ Public Class Database
         Return devices
     End Function
     Private Shared Function GetTimeStamp(ByVal MachineID As Integer) As String
-        Dim sqlite_conn As SQLiteConnection
         Dim ts As String = String.Empty
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
@@ -135,7 +122,6 @@ Public Class Database
     End Function
 
     Private Shared Sub DeleteTable(ByVal TableName As String)
-        Dim sqlite_conn As SQLiteConnection
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
@@ -145,7 +131,6 @@ Public Class Database
     End Sub
 
     Private Shared Sub DeleteOldEntries(ByVal MachineID As Integer)
-        Dim sqlite_conn As SQLiteConnection
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
