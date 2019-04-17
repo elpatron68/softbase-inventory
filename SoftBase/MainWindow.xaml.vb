@@ -13,11 +13,14 @@ Class MainWindow
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
         Dim tmp = Database.LoadSoftwareListForDevice(Device)
-        Softlist = tmp.Item1
-        If Softlist.Count > 0 Then
-            Dim lastupdate = tmp.Timestamp
-            UpdateList(Softlist)
-            LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
+        Dim lastupdate = tmp.Timestamp
+        If lastupdate <> "-1" Then
+            Softlist = tmp.Item1
+            If Softlist.Count > 0 Then
+
+                UpdateList(Softlist)
+                LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
+            End If
         End If
     End Sub
 
@@ -29,7 +32,6 @@ Class MainWindow
     Private Async Sub LoadSoftwareList()
         BtnRetrieve.IsEnabled = False
         BtnSaveDb.IsEnabled = False
-        lbSoftware.Items.Clear()
 
         Try
             Dim cancellationTokenSource = New CancellationTokenSource()
@@ -47,9 +49,7 @@ Class MainWindow
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-        For Each soft In Softlist
-            lbSoftware.Items.Add(soft.Name + " - Version " + soft.Version)
-        Next
+        UpdateList(Softlist)
         BtnRetrieve.IsEnabled = True
         BtnSaveDb.IsEnabled = True
         LblStatus.Content = "List of installed programs updated."
@@ -83,6 +83,7 @@ Class MainWindow
     End Sub
 
     Private Sub UpdateList(ByVal softlist As List(Of software))
+        lbSoftware.Items.Clear()
         For Each soft In softlist
             lbSoftware.Items.Add(soft.Name + " - Version " + soft.Version)
         Next
