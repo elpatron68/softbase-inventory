@@ -3,8 +3,9 @@
 Public Class Database
     Private Const dbfile As String = "database.sqlite"
     Public Shared Sub SaveList(ByVal Softlist As List(Of software), ByVal device As Device)
-        Dim sqlite_conn As SQLiteConnection
         Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
+        DeleteOldEntries(DeviceId)
+        Dim sqlite_conn As SQLiteConnection
 
         ' create a new database connection:
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
@@ -95,13 +96,13 @@ Public Class Database
         Return id
     End Function
 
-    Private Shared Function GetTimeStamp(ByVal MachineID) As String
+    Private Shared Function GetTimeStamp(ByVal MachineID As Integer) As String
         Dim sqlite_conn As SQLiteConnection
         Dim ts As String = String.Empty
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT MACHINEID, LASTUPDATE FROM DEVICES WHERE MACHINEID = {MachineID}"
+        sqlite_cmd.CommandText = $"SELECT Id, LASTUPDATE FROM DEVICES WHERE Id = {MachineID}"
         Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
         While r.Read
             ts = r("LASTUPDATE")
@@ -117,6 +118,15 @@ Public Class Database
 
         sqlite_cmd.CommandText = $"DELETE FROM {TableName}"
         sqlite_cmd.ExecuteNonQuery()
+    End Sub
+
+    Private Shared Sub DeleteOldEntries(ByVal MachineID As Integer)
+        Dim sqlite_conn As SQLiteConnection
+        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+        sqlite_conn.Open()
+        Dim sqlite_cmd = sqlite_conn.CreateCommand()
+
+        sqlite_cmd.CommandText = $"DELETE * FROM SOFTWARE WHERE Id = {MachineID}"
         sqlite_cmd.ExecuteNonQuery()
     End Sub
 End Class

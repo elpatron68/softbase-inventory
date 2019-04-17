@@ -17,7 +17,6 @@ Class MainWindow
         If lastupdate <> "-1" Then
             Softlist = tmp.Item1
             If Softlist.Count > 0 Then
-
                 UpdateList(Softlist)
                 LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
             End If
