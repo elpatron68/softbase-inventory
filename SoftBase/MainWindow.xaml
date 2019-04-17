@@ -30,7 +30,8 @@
             <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,330,0,80" VerticalAlignment="Bottom" Width="180" Click="BtnExportPDF_Click"/>
             <ListBox x:Name="lbSoftware" Margin="280,0,30,61.333" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True"/>
             <StatusBar x:Name="Statusbar" Height="40" Margin="0,401,0,0" VerticalAlignment="Bottom">
-                <Label x:Name="LblStatus" Content=""/>
+                <Label x:Name="LblStatus" Content="" HorizontalAlignment="Left" MinWidth="300"/>
+                <Label x:Name="LblDatabase" Content="" HorizontalAlignment="Right"/>
             </StatusBar>
         </Grid>
     </DockPanel>
