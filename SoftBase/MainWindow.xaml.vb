@@ -13,6 +13,7 @@ Class MainWindow
         lbDeviceName.Content = Device.Hostname
         ReadDevices()
         ReadSoftwarelistFromDb()
+        Database.AddSnapshot(Device)
     End Sub
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
@@ -89,7 +90,7 @@ Class MainWindow
             Softlist = tmp.Item1
             If Softlist.Count > 0 Then
                 UpdateList(Softlist)
-                LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
+                LblStatus.Content = $"Data loaded from database. Last updated: {lastupdate}"
             End If
         End If
     End Sub
@@ -112,10 +113,20 @@ Class MainWindow
             For Each d In DbDevices
                 CbDevices.Items.Add(d.Hostname)
             Next
+        Else
+            CbDevices.Items(0) = "No devices in DB"
+            CbSnapshots.Items(0) = "Not avaiable"
+            CbDevices.IsEnabled = False
+            CbSnapshots.IsEnabled = False
         End If
     End Sub
 
     Private Sub MnExit_Click(sender As Object, e As RoutedEventArgs) Handles MnExit.Click
         Close()
+    End Sub
+
+    Private Sub MnSettings_Click(sender As Object, e As RoutedEventArgs) Handles MnSettings.Click
+        Dim SettingsWindow = New Settings
+        SettingsWindow.Show()
     End Sub
 End Class

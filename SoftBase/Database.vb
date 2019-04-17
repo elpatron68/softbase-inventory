@@ -13,7 +13,7 @@ Public Class Database
         sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SOFTWARE] (
                                   [Id] INTEGER PRIMARY KEY,
                                   [MACHINEID] INTEGER NOT NULL,
-                                  [NAME] NVARCHAR(2048) NULL,
+                                  [NAME] NVARCHAR(2048) NOT NULL,
                                   [VERSION] NVARCHAR(2048) NULL)"
         sqlite_cmd.ExecuteNonQuery()
 
@@ -57,13 +57,28 @@ Public Class Database
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
         sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [DEVICES] (
                                   [Id] INTEGER PRIMARY KEY,
-                                  [MACHINEID] NVARCHAR(2048) NULL,
-                                  [NAME] NVARCHAR(2048) NULL,
+                                  [MACHINEID] NVARCHAR(2048) NOT NULL,
+                                  [NAME] NVARCHAR(2048) NOT NULL,
                                   [LASTUPDATE] NVARCHAR(2048) NULL)"
         sqlite_cmd.ExecuteNonQuery()
         sqlite_cmd.CommandText = $"INSERT INTO DEVICES (MACHINEID, NAME, LASTUPDATE) VALUES ('{device.Uuid}', '{device.Hostname}', '{timestamp}');"
         sqlite_cmd.ExecuteNonQuery()
     End Sub
+
+    Public Shared Function AddSnapshot(ByVal device As Device) As Integer
+        Dim timestamp As String = DateTime.Now.ToLocalTime.ToString
+        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+        sqlite_conn.Open()
+        Dim sqlite_cmd = sqlite_conn.CreateCommand()
+        sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SNAPSHOTS] (
+                                  [Id] INTEGER PRIMARY KEY,
+                                  [DEVICEID] INTEGER NOT NULL,
+                                  [TIMESTAMP] NVARCHAR(2048) NOT NULL)"
+        sqlite_cmd.ExecuteNonQuery()
+        sqlite_cmd.CommandText = $"INSERT INTO DEVICES (MACHINEID, NAME, LASTUPDATE) VALUES ('{device.Uuid}', '{device.Hostname}', '{timestamp}');"
+        sqlite_cmd.ExecuteNonQuery()
+    End Function
+
 
     Public Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
         Dim id As Integer = 0
