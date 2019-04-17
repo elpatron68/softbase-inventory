@@ -1,6 +1,4 @@
-﻿Imports System.Data.SQLite
-Imports System.Management
-Imports System.Threading
+﻿Imports System.Threading
 Imports MahApps.Metro.Controls
 Imports NLog
 Class MainWindow
@@ -30,18 +28,11 @@ Class MainWindow
     End Sub
 
     Private Async Sub LoadSoftwareList()
-        BtnRetrieve.IsEnabled = False
-        BtnExportXls.IsEnabled = False
-        BtnExportPDF.IsEnabled = False
-        CbDevices.IsEnabled = False
-
+        EnableControls(False)
         Try
             Dim cancellationTokenSource = New CancellationTokenSource()
             Me._cancelWork = Function()
-                                 BtnRetrieve.IsEnabled = True
-                                 BtnExportXls.IsEnabled = True
-                                 BtnExportPDF.IsEnabled = True
-                                 CbDevices.IsEnabled = True
+                                 EnableControls(True)
                                  cancellationTokenSource.Cancel()
                                  Return Nothing
                              End Function
@@ -57,10 +48,7 @@ Class MainWindow
         ReadSoftwarelistFromDb()
 
         UpdateList(Softlist)
-        BtnRetrieve.IsEnabled = True
-        BtnExportXls.IsEnabled = True
-        BtnExportPDF.IsEnabled = True
-        CbDevices.IsEnabled = True
+        EnableControls(True)
         LblStatus.Content = "List of installed programs updated."
     End Sub
 
@@ -110,5 +98,13 @@ Class MainWindow
                 LblStatus.Content = $"Data read from database. Last updated: {lastupdate}"
             End If
         End If
+    End Sub
+
+    Private Sub EnableControls(ByVal enable As Boolean)
+        BtnRetrieve.IsEnabled = enable
+        BtnExportXls.IsEnabled = enable
+        BtnExportPDF.IsEnabled = enable
+        CbDevices.IsEnabled = enable
+
     End Sub
 End Class
