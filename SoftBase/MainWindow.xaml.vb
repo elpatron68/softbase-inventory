@@ -6,12 +6,20 @@ Imports NLog
 Class MainWindow
     Private Shared Softlist As List(Of software) = New List(Of software)
     Private Shared Device As Device = New Device
+    Private Shared DbDevices As List(Of Device) = New List(Of Device)
     Private _cancelWork As Action
 
     Public Sub New()
         InitializeComponent()
+        DbDevices = Database.GetDevices()
+        If DbDevices.Count > 0 Then
+            For Each d In DbDevices
+                CbDevices.Items.Add(d.Hostname)
+            Next
+        End If
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
+        BtnSaveDb.IsEnabled = False
         Dim tmp = Database.LoadSoftwareListForDevice(Device)
         Dim lastupdate = tmp.Timestamp
         If lastupdate <> "-1" Then
@@ -54,6 +62,7 @@ Class MainWindow
         UpdateList(Softlist)
         BtnRetrieve.IsEnabled = True
         BtnSaveDb.IsEnabled = True
+        BtnExportPDF.IsEnabled = True
         LblStatus.Content = "List of installed programs updated."
     End Sub
 

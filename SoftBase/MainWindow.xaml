@@ -16,13 +16,16 @@
         <Label x:Name="lbDeviceUUID" Content="Device UUID" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" FontSize="12"/>
         <Label Content="Device Name" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label x:Name="lbDeviceName" Content="Device name" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" FontSize="12"/>
-        <Button x:Name="BtnRetrieve" Content="Retrieve installed software" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Width="180" Click="BtnRetrieve_Click"/>
-        <Button x:Name="BtnSaveDb" Content="Save to database" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="180" Click="BtnSaveDb_Click"/>
-        <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="180" Click="BtnExportPDF_Click"/>
+        <Label Content="Select device from database" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <ComboBox x:Name="CbDevices" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="180" RenderTransformOrigin="-0.006,0.544"/>
+        <Button x:Name="BtnRetrieve" Content="Read installed software" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" Width="180" Click="BtnRetrieve_Click"/>
+        <Button x:Name="BtnSaveDb" Content="Save to database" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="180" Click="BtnSaveDb_Click"/>
+        <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top" Width="180" Click="BtnExportPDF_Click"/>
         <ListBox x:Name="lbSoftware" Height="300" Margin="280,55,13.333,0" VerticalAlignment="Top" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" Grid.ColumnSpan="2"/>
         <StatusBar x:Name="Statusbar" Height="40" Margin="0,0,0.333,-0.333" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
             <Label x:Name="LblStatus" Content=""/>
         </StatusBar>
+        
 
     </Grid>
 </Controls:MetroWindow>

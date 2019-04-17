@@ -96,6 +96,30 @@ Public Class Database
         Return id
     End Function
 
+    Public Shared Function GetDevices() As List(Of Device)
+        Dim devices As List(Of Device) = New List(Of Device)
+        Dim sqlite_conn As SQLiteConnection
+        Dim id As Integer = 0
+        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+        sqlite_conn.Open()
+        Dim sqlite_cmd = sqlite_conn.CreateCommand()
+        sqlite_cmd.CommandText = $"SELECT Id, NAME FROM DEVICES"
+        Try
+            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+            If r.HasRows Then
+                While r.Read
+                    Dim d = New Device
+                    d.Hostname = r("NAME")
+                    d.DbID = r("Id")
+                    devices.Add(d)
+                End While
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        Return devices
+    End Function
     Private Shared Function GetTimeStamp(ByVal MachineID As Integer) As String
         Dim sqlite_conn As SQLiteConnection
         Dim ts As String = String.Empty
@@ -126,7 +150,7 @@ Public Class Database
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
 
-        sqlite_cmd.CommandText = $"DELETE FROM SOFTWARE WHERE Id = {MachineID}"
+        sqlite_cmd.CommandText = $"DELETE FROM SOFTWARE WHERE MACHINEID = {MachineID}"
         sqlite_cmd.ExecuteNonQuery()
     End Sub
 End Class
