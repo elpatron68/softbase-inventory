@@ -11,6 +11,7 @@ Class MainWindow
         InitializeComponent()
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
+
         ReadDevices()
         ReadSoftwarelistFromDb()
     End Sub

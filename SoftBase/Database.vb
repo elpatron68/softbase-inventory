@@ -1,7 +1,7 @@
 ﻿Imports System.Data.SQLite
 
 Public Class Database
-    Private Const dbfile As String = "database.sqlite"
+    Private Shared dbfile As String = My.Settings.databasefile
     Private Shared sqlite_conn As SQLiteConnection
     Public Shared Sub SaveList(ByVal Softlist As List(Of software), ByVal device As Device)
         Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
