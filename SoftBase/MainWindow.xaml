@@ -11,9 +11,12 @@
         <!-- Menu. -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open"/>
-                <MenuItem Header="_Close"/>
-                <MenuItem Header="_Save"/>
+                <MenuItem Header="_Select database file"/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Licenses"/>
+                <MenuItem Header="_About"/>
             </MenuItem>
         </Menu>
         <Grid Margin="0,0" >
@@ -22,7 +25,6 @@
             <Label x:Name="lbDeviceUUID" Content="Device UUID" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" FontSize="12"/>
             <Label Content="Device Name" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" FontSize="14"/>
             <Label x:Name="lbDeviceName" Content="Device name" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" FontSize="12"/>
-            
             <Button x:Name="BtnRetrieve" Content="Read installed software" HorizontalAlignment="Left" Margin="10,250,0,160" VerticalAlignment="Bottom" Width="180" Click="BtnRetrieve_Click"/>
             <Button x:Name="BtnExportXls" Content="Save to Excel" HorizontalAlignment="Left" Margin="10,290,0,120" VerticalAlignment="Bottom" Width="180" Click="BtnSaveXls_Click"/>
             <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,330,0,80" VerticalAlignment="Bottom" Width="180" Click="BtnExportPDF_Click"/>
