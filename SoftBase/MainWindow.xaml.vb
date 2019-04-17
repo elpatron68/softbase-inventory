@@ -3,7 +3,7 @@ Imports MahApps.Metro.Controls
 Imports NLog
 Class MainWindow
     Private Shared Softlist As List(Of software) = New List(Of software)
-    Private Shared Device As Device = New Device
+    Private Shared ReadOnly Device As Device = New Device
     Private Shared DbDevices As List(Of Device) = New List(Of Device)
     Private _cancelWork As Action
 
@@ -102,6 +102,8 @@ Class MainWindow
     End Sub
 
     Private Sub ReadDevices()
+        CbDevices.Items.Add("Select device")
+        CbDevices.SelectedIndex = 0
         DbDevices = Database.GetDevices()
         If DbDevices.Count > 0 Then
             For Each d In DbDevices
