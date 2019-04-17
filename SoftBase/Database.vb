@@ -1,4 +1,5 @@
-﻿Imports System.Data.SQLite
+﻿Imports System.IO
+Imports System.Data.SQLite
 
 Public Class Database
     Private Shared dbfile As String = My.Settings.databasefile
@@ -114,10 +115,14 @@ Public Class Database
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
         sqlite_cmd.CommandText = $"SELECT Id, LASTUPDATE FROM DEVICES WHERE Id = {MachineID}"
-        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-        While r.Read
-            ts = r("LASTUPDATE")
-        End While
+        Try
+            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+            While r.Read
+                ts = r("LASTUPDATE")
+            End While
+        Catch ex As Exception
+
+        End Try
         Return ts
     End Function
 
@@ -125,17 +130,23 @@ Public Class Database
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
-
         sqlite_cmd.CommandText = $"DELETE FROM {TableName}"
-        sqlite_cmd.ExecuteNonQuery()
+        Try
+            sqlite_cmd.ExecuteNonQuery()
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Shared Sub DeleteOldEntries(ByVal MachineID As Integer)
         sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
         sqlite_conn.Open()
         Dim sqlite_cmd = sqlite_conn.CreateCommand()
-
         sqlite_cmd.CommandText = $"DELETE FROM SOFTWARE WHERE MACHINEID = {MachineID}"
-        sqlite_cmd.ExecuteNonQuery()
+        Try
+            sqlite_cmd.ExecuteNonQuery()
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
