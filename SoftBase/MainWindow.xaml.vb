@@ -11,7 +11,6 @@ Class MainWindow
         InitializeComponent()
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
-
         ReadDevices()
         ReadSoftwarelistFromDb()
     End Sub
@@ -103,6 +102,9 @@ Class MainWindow
     End Sub
 
     Private Sub ReadDevices()
+        CbSnapshots.IsEnabled = False
+        CbSnapshots.Items.Add("Select snapshot")
+        CbSnapshots.SelectedIndex = 0
         CbDevices.Items.Add("Select device from DB")
         CbDevices.SelectedIndex = 0
         DbDevices = Database.GetDevices()
@@ -111,5 +113,9 @@ Class MainWindow
                 CbDevices.Items.Add(d.Hostname)
             Next
         End If
+    End Sub
+
+    Private Sub MnExit_Click(sender As Object, e As RoutedEventArgs) Handles MnExit.Click
+        Close()
     End Sub
 End Class
