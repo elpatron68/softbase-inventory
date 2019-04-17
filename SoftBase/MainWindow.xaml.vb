@@ -103,7 +103,7 @@ Class MainWindow
     End Sub
 
     Private Sub ReadDevices()
-        CbDevices.Items.Add("Select device")
+        CbDevices.Items.Add("Select device from DB")
         CbDevices.SelectedIndex = 0
         DbDevices = Database.GetDevices()
         If DbDevices.Count > 0 Then
