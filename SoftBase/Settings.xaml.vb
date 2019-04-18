@@ -19,7 +19,7 @@ Public Class Settings
             .Filter = "Sqlite files (*.sqlite)|*.sqlite|All files (*.*)|*.*"
         End With
         If Ofd.ShowDialog() = True Then
-
+            TxDatabasepath.Text = Ofd.FileName
         End If
 
     End Sub

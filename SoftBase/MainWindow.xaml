@@ -5,12 +5,13 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-        Title="SoftBase Inventory" Height="500" Width="800" MinWidth="600" MinHeight="400">
+        Title="SoftBase Inventory" Height="580" Width="800" MinWidth="600" MinHeight="400">
     <DockPanel>
         <!-- Menu. -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem x:Name="MnSettings" Header="_Settings"/>
+                <MenuItem x:Name="MnDonate" Header="_Donate"/>
                 <MenuItem x:Name="MnExit" Header="_Exit"/>
             </MenuItem>
             <MenuItem Header="_Help">
@@ -25,11 +26,12 @@
             <Label x:Name="lbDeviceUUID" Content="Device UUID" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" FontSize="12"/>
             <Label Content="Device Name" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" FontSize="14"/>
             <Label x:Name="lbDeviceName" Content="Device name" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <Button x:Name="BtnRetrieve" Content="Read installed software" HorizontalAlignment="Left" Margin="10,250,0,160" VerticalAlignment="Bottom" Width="180" Click="BtnRetrieve_Click"/>
-            <Button x:Name="BtnExportXls" Content="Save to Excel" HorizontalAlignment="Left" Margin="10,290,0,120" VerticalAlignment="Bottom" Width="180" Click="BtnSaveXls_Click"/>
-            <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,330,0,80" VerticalAlignment="Bottom" Width="180" Click="BtnExportPDF_Click"/>
+            <Button x:Name="BtnRetrieve" Content="Read installed software" HorizontalAlignment="Left" Margin="10,0,0,192.333" VerticalAlignment="Bottom" Width="180" Click="BtnRetrieve_Click"/>
+            <Button x:Name="BtnExportXls" Content="Save to Excel" HorizontalAlignment="Left" Margin="10,0,0,160" VerticalAlignment="Bottom" Width="180" Click="BtnSaveXls_Click"/>
+            <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,0,0,128" VerticalAlignment="Bottom" Width="180" Click="BtnExportPDF_Click"/>
+            <Image Height="21" Margin="10,0,0,45.333" VerticalAlignment="Bottom" Width="74" HorizontalAlignment="Left" RenderTransformOrigin="1.228,-2.784" MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="img/btn_donate_SM.bmp"/>
             <ListBox x:Name="lbSoftware" Margin="280,0,30,61.333" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True"/>
-            <StatusBar x:Name="Statusbar" Height="40" Margin="0,401,0,0" VerticalAlignment="Bottom">
+            <StatusBar x:Name="Statusbar" Height="40" Margin="0,0" VerticalAlignment="Bottom">
                 <Label x:Name="LblStatus" Content="" HorizontalAlignment="Left" MinWidth="300"/>
                 <Label x:Name="LblDatabase" Content="" HorizontalAlignment="Right"/>
             </StatusBar>

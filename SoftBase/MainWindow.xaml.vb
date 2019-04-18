@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.IO
+Imports System.Threading
 Imports MahApps.Metro.Controls
 Imports NLog
 Class MainWindow
@@ -9,11 +10,19 @@ Class MainWindow
 
     Public Sub New()
         InitializeComponent()
+        If DBExists() = False Then
+            Dim SettingsWindow = New Settings
+            SettingsWindow.ShowDialog()
+        End If
+
+        ' Debug stuff
+        ' Database.GetSnapshots(1)
+        ' Database.AddSnapshot(Device)
+
         lbDeviceUUID.Content = Device.Uuid
         lbDeviceName.Content = Device.Hostname
         ReadDevices()
         ReadSoftwarelistFromDb()
-        Database.AddSnapshot(Device)
     End Sub
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
@@ -24,10 +33,13 @@ Class MainWindow
 
     Private Async Sub LoadSoftwareList()
         EnableControls(False)
+        Mouse.OverrideCursor = Cursors.Wait
+
         Try
             Dim cancellationTokenSource = New CancellationTokenSource()
             Me._cancelWork = Function()
                                  EnableControls(True)
+                                 Mouse.OverrideCursor = Nothing
                                  cancellationTokenSource.Cancel()
                                  Return Nothing
                              End Function
@@ -44,6 +56,7 @@ Class MainWindow
 
         UpdateList(Softlist)
         EnableControls(True)
+        Mouse.OverrideCursor = Nothing
         LblStatus.Content = "List of installed programs updated."
     End Sub
 
@@ -84,7 +97,7 @@ Class MainWindow
         Next
     End Sub
     Private Sub ReadSoftwarelistFromDb()
-        Dim tmp = Database.LoadSoftwareListForDevice(Device)
+        Dim tmp = Database.LoadSoftwareListForDevice(Device, 1)
         Dim lastupdate = tmp.Timestamp
         If lastupdate <> "-1" Then
             Softlist = tmp.Item1
@@ -121,12 +134,29 @@ Class MainWindow
         End If
     End Sub
 
+    Private Function DBExists() As Boolean
+        If Not File.Exists(My.Settings.databasefile) Or My.Settings.databasefile = "" Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+
     Private Sub MnExit_Click(sender As Object, e As RoutedEventArgs) Handles MnExit.Click
         Close()
     End Sub
 
     Private Sub MnSettings_Click(sender As Object, e As RoutedEventArgs) Handles MnSettings.Click
         Dim SettingsWindow = New Settings
-        SettingsWindow.Show()
+        SettingsWindow.ShowDialog()
+    End Sub
+
+    Private Sub MnDonate_Click(sender As Object, e As RoutedEventArgs) Handles MnDonate.Click
+        Dim DonateWindow = New Donate
+        DonateWindow.ShowDialog()
+    End Sub
+
+    Private Sub Image_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
+        Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2K5Z6QV5GREA4&source=url")
     End Sub
 End Class

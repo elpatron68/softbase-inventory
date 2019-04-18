@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="databasefile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">database.sqlite</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
