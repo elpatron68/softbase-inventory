@@ -64,6 +64,54 @@ Partial Friend NotInheritable Class MySettings
             Me("databasefile") = value
         End Set
     End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+    Public Property Left() As Integer
+        Get
+            Return CType(Me("Left"),Integer)
+        End Get
+        Set
+            Me("Left") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+    Public Property Top() As Integer
+        Get
+            Return CType(Me("Top"),Integer)
+        End Get
+        Set
+            Me("Top") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("800")>  _
+    Public Property Width() As Integer
+        Get
+            Return CType(Me("Width"),Integer)
+        End Get
+        Set
+            Me("Width") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("580")>  _
+    Public Property Heigth() As Integer
+        Get
+            Return CType(Me("Heigth"),Integer)
+        End Get
+        Set
+            Me("Heigth") = value
+        End Set
+    End Property
 End Class
 
 Namespace My

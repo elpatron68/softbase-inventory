@@ -7,6 +7,7 @@ Public Class Settings
 
     Private Sub MetroWindow_Closed(sender As Object, e As EventArgs)
         My.Settings.databasefile = TxDatabasepath.Text
+        My.Settings.Save()
     End Sub
 
     Private Sub BtnBrowse_Click(sender As Object, e As RoutedEventArgs) Handles BtnBrowse.Click

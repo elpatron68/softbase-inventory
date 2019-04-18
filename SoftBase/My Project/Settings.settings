@@ -5,5 +5,17 @@
     <Setting Name="databasefile" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Left" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Top" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="Heigth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">580</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
