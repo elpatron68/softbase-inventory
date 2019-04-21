@@ -13,7 +13,7 @@ Public Class Settings
     Private Sub BtnBrowse_Click(sender As Object, e As RoutedEventArgs) Handles BtnBrowse.Click
         Dim Ofd As New OpenFileDialog()
         With Ofd
-            .InitialDirectory = Environment.SpecialFolder.MyDocuments
+            .InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             .FileName = "SoftBase-Inventory.sqlite"
             .CheckFileExists = False
             .CheckPathExists = True
