@@ -181,6 +181,7 @@ Class MainWindow
     End Function
 
 
+#Region "Events from ComboBoxes"
     Private Sub CbSnapshots_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbSnapshots.SelectionChanged
         If CbSnapshots.SelectedIndex = 0 Or CbSnapshots.SelectedIndex = -1 Then Exit Sub
         'Dim Snapshotindex As Integer = 0
@@ -206,6 +207,8 @@ Class MainWindow
         ThisDevice = Database.GetDeviceFromUuid(uuid)
         LoadSnapshotsForDevice()
     End Sub
+#End Region
+
 #Region "Menu click events"
     Private Sub MnExit_Click(sender As Object, e As RoutedEventArgs) Handles MnExit.Click
         Close()
