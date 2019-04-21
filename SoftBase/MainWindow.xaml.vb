@@ -161,11 +161,15 @@ Class MainWindow
         CbSnapshots.Items.Clear()
         CbSnapshots.Items.Add("Select Snapshot")
         ThisDevice.Snapshots = Database.GetAllSnapshotIdForDevice(ThisDevice.DbID)
-        For Each s In ThisDevice.Snapshots
-            CbSnapshots.Items.Add(s.Item1)
-        Next
-        CbSnapshots.IsEnabled = True
-        CbSnapshots.SelectedIndex = 0
+        If ThisDevice.Snapshots.Count > 0 Then
+            For Each s In ThisDevice.Snapshots
+                CbSnapshots.Items.Add(s.Item1)
+            Next
+            CbSnapshots.IsEnabled = True
+            CbSnapshots.SelectedIndex = 0
+        Else
+            LblStatus.Content = "No snapshots found for this device, select another device."
+        End If
     End Sub
 
     Private Function DBExists() As Boolean
@@ -215,7 +219,7 @@ Class MainWindow
     Private Sub CbDevices_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbDevices.SelectionChanged
         If CbDevices.SelectedIndex = 0 Or CbDevices.SelectedIndex = -1 Then Exit Sub
         Dim index = CbDevices.SelectedIndex - 1
-        Dim uuid = DbDevices(index).DbID
+        Dim uuid = DbDevices(index).Uuid
         ThisDevice = Database.GetDeviceFromUuid(uuid)
         LoadSnapshotsForDevice()
     End Sub
