@@ -17,8 +17,6 @@ Class MainWindow
             SettingsWindow.ShowDialog()
         End If
 
-        LblDatabase.Content = $"{My.Settings.databasefile}"
-
         ThisDevice = New Device With {
             .Uuid = GetWMI_Info.GetUUID(),
             .Hostname = System.Environment.MachineName
@@ -42,6 +40,9 @@ Class MainWindow
         CbSnapshots.SelectedIndex = 0
 
         DbDevices = Database.GetAllDevices()
+
+        LblDatabase.Content = $"{My.Settings.databasefile}"
+        LblStatus.Content = "Ready."
 
         If ThisDevice.DbID <> -1 Then
             LoadSnapshotsForDevice()
