@@ -7,6 +7,7 @@ Public Class SelectExportFile
     Public Sub New(ByVal filetype)
         InitializeComponent()
         FT = filetype
+        TxExportFile.Text = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\SoftBase-Inventory-Export.{FT}"
     End Sub
 
     Private Sub BtnBrowse_Click(sender As Object, e As RoutedEventArgs) Handles BtnBrowse.Click
