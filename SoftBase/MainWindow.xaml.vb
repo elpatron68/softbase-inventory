@@ -17,7 +17,7 @@ Class MainWindow
             SettingsWindow.ShowDialog()
         End If
 
-        LblDatabase.Content = $"DB: {My.Settings.databasefile}"
+        LblDatabase.Content = $"{My.Settings.databasefile}"
 
         ThisDevice = New Device With {
             .Uuid = GetWMI_Info.GetUUID(),
@@ -202,7 +202,7 @@ Class MainWindow
     Private Sub MnSettings_Click(sender As Object, e As RoutedEventArgs) Handles MnSettings.Click
         Dim SettingsWindow = New Settings
         SettingsWindow.ShowDialog()
-        LblDatabase.Content = $"DB: {My.Settings.databasefile}"
+        LblDatabase.Content = $"{My.Settings.databasefile}"
     End Sub
 
     Private Sub MnDonate_Click(sender As Object, e As RoutedEventArgs) Handles MnDonate.Click
