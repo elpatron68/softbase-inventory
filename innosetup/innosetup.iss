@@ -36,28 +36,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "C:\Program Files (x86)\Inno Setup 5\Examples\MyProg.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\SoftBase.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\BouncyCastle.Crypto.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\Common.Logging.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\Common.Logging.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\ControlzEx.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\EntityFramework.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\EntityFramework.SqlServer.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.barcodes.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.forms.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.io.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.kernel.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.layout.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.pdfa.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.sign.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.styledxmlparser.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\itext.svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\MahApps.Metro.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\MahApps.Metro.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\SoftBase.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\System.Data.SQLite.EF6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\System.Data.SQLite.Linq.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\System.Windows.Interactivity.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
