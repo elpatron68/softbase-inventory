@@ -25,6 +25,7 @@
                         <MenuItem x:Name="CommonLogging" Header="Common.Logging .NET"/>
                         <MenuItem x:Name="ControlzEx" Header="ControlzEx"/>
                         <MenuItem x:Name="EntityFramework" Header="EntityFramework"/>
+                        <MenuItem x:Name="EPPlus" Header="EPPlus"/>
                         <MenuItem x:Name="itext7" Header="itext7"/>
                         <MenuItem x:Name="MahAppsMetro" Header="MahApps.Metro"/>
                         <MenuItem x:Name="MicrosoftCSharp" Header="Microsoft.CSharp"/>

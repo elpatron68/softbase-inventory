@@ -123,7 +123,7 @@ Class MainWindow
     End Sub
 
     Private Sub BtnSaveXls_Click(sender As Object, e As RoutedEventArgs)
-        Dim FileDialog = New SelectExportFile("pdf")
+        Dim FileDialog = New SelectExportFile("xlsx")
         Dim result = FileDialog.ShowDialog()
         Dim filename = SelectExportFile.FN
         Dim ts = CbSnapshots.SelectedItem
@@ -249,6 +249,11 @@ Class MainWindow
         Process.Start("https://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm")
     End Sub
 
+    Private Sub EPPlus_Click(sender As Object, e As RoutedEventArgs) Handles EPPlus.Click
+        Process.Start("https://licenses.nuget.org/LGPL-3.0-or-later")
+    End Sub
+
+
     Private Sub Itext7_Click(sender As Object, e As RoutedEventArgs) Handles itext7.Click
         Process.Start("https://www.gnu.org/licenses/agpl.html")
     End Sub
@@ -268,6 +273,7 @@ Class MainWindow
     Private Sub SystemDataSQLite_Click(sender As Object, e As RoutedEventArgs) Handles SystemDataSQLite.Click
         Process.Start("https://www.sqlite.org/copyright.html")
     End Sub
+
 
 #End Region
 
