@@ -106,11 +106,6 @@ Class MainWindow
         Return Nothing
     End Function
 
-    Private Sub BtnSaveDb_Click(sender As Object, e As RoutedEventArgs)
-        'Database.SaveSoftwareList(Softlist, ThisDevice)
-        LblStatus.Content = "Database saved."
-    End Sub
-
     Private Sub BtnExportPDF_Click(sender As Object, e As RoutedEventArgs)
         PdfExport.CreatePdf("test.pdf", Softlist)
         LblStatus.Content = "Software list exported to 'test.pdf'"
