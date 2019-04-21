@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SQLite
+Imports SoftBase
 
 Public Class Database
     Private Shared dbfile As String = My.Settings.databasefile
@@ -77,6 +78,24 @@ Public Class Database
         End Using
         Return id
     End Function
+
+    Friend Shared Function GetDeviceFromUuid(uuid As String) As Device
+        Dim d As Device = New Device
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT * FROM DEVICES WHERE UUID = '{uuid}'"
+            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+            If r.HasRows Then
+                r.Read()
+                d.Hostname = r("NAME")
+                d.Uuid = r("UUID")
+                d.DbID = r("DEVICEID")
+            End If
+        End Using
+        Return d
+    End Function
+
 
     Public Shared Function AddNewSnapshot(ByVal device As Device) As Long
         Dim timestamp As String = DateTime.Now.ToLocalTime.ToString
