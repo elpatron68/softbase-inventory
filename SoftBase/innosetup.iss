@@ -34,7 +34,6 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Program Files (x86)\Inno Setup 5\Examples\MyProg.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\SoftBase.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\BouncyCastle.Crypto.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\Common.Logging.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
