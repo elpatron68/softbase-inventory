@@ -214,11 +214,8 @@ Class MainWindow
 
     Private Sub CbDevices_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbDevices.SelectionChanged
         If CbDevices.SelectedIndex = 0 Or CbDevices.SelectedIndex = -1 Then Exit Sub
-        For Each d As Device In DbDevices
-            If d.Hostname = CbDevices.Text Then
-                ThisDevice = Database.GetDeviceFromUuid(d.Uuid)
-                LoadSnapshotsForDevice()
-            End If
-        Next
+
+        ThisDevice = Database.GetDeviceFromUuid(DbDevices(CbDevices.SelectedIndex - 1).Uuid)
+        LoadSnapshotsForDevice()
     End Sub
 End Class
