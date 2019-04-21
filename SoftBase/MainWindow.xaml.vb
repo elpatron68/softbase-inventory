@@ -120,8 +120,8 @@ Class MainWindow
         'Me.Dispatcher.BeginInvoke(Sub()
         '                              Me.ShowMessageAsync("Title", "Text")
         '                          End Sub)
-
-        PdfExport.CreatePdf(filename, Softlist, ThisDevice)
+        Dim ts = CbSnapshots.SelectedItem
+        PdfExport.CreatePdf(filename, Softlist, ThisDevice, ts)
         LblStatus.Content = $"Software list exported to {filename}"
     End Sub
 
