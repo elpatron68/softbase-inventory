@@ -1,5 +1,4 @@
-﻿Imports System.IO
-Imports System.Data.SQLite
+﻿Imports System.Data.SQLite
 
 Public Class Database
     Private Shared dbfile As String = My.Settings.databasefile

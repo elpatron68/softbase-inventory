@@ -1,7 +1,6 @@
 ﻿Imports System.IO
 Imports System.Threading
-Imports MahApps.Metro.Controls
-Imports NLog
+'Imports MahApps.Metro.Controls
 Class MainWindow
     Private Shared Softlist As List(Of software) = New List(Of software)
     Private Shared ThisDevice As Device
@@ -197,19 +196,24 @@ Class MainWindow
 
     Private Sub CbSnapshots_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbSnapshots.SelectionChanged
         If CbSnapshots.SelectedIndex = 0 Or CbSnapshots.SelectedIndex = -1 Then Exit Sub
-        Dim Snapshotindex As Integer = 0
-        For Each i In Snapshots
-            If i.Item1 = CbSnapshots.SelectedItem Then
-                Snapshotindex = i.Item2
-            End If
-        Next
+        'Dim Snapshotindex As Integer = 0
+        'For Each i In Snapshots
+        '    If i.Item1 = CbSnapshots.SelectedItem Then
+        '        Snapshotindex = i.Item2
+        '    End If
+        'Next
 
-        For Each d In DbDevices
-            If d.Hostname = CbDevices.SelectedValue Then
-                ThisDevice = d
-            End If
-        Next
-        ReadSoftwarelistFromDb(ThisDevice, Snapshotindex)
+        'For Each d In DbDevices
+        '    If d.Hostname = CbDevices.SelectedValue Then
+        '        ThisDevice = d
+        '    End If
+        'Next
+        'ReadSoftwarelistFromDb(ThisDevice, Snapshotindex)
+
+    End Sub
+
+    Private Sub CbDevices_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbDevices.SelectionChanged
+        If CbDevices.SelectedIndex = 0 Or CbDevices.SelectedIndex = -1 Then Exit Sub
 
     End Sub
 End Class
