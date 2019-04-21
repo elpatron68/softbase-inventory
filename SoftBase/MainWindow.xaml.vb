@@ -4,34 +4,60 @@ Imports MahApps.Metro.Controls
 Imports NLog
 Class MainWindow
     Private Shared Softlist As List(Of software) = New List(Of software)
-    Private Shared ReadOnly Device As Device = New Device
+    Private Shared ThisDevice As Device
+    Private Shared Snapshots As List(Of Tuple(Of String, Integer)) = New List(Of Tuple(Of String, Integer))
     Private Shared DbDevices As List(Of Device) = New List(Of Device)
     Private _cancelWork As Action
 
     Public Sub New()
         InitializeComponent()
+        Database.CreateTables()
+
         If DBExists() = False Then
             Dim SettingsWindow = New Settings
             SettingsWindow.ShowDialog()
         End If
 
+        ThisDevice = New Device With {
+            .Uuid = GetWMI_Info.GetUUID(),
+            .Hostname = System.Environment.MachineName
+        }
+
+        ThisDevice.DbID = Database.GetDeviceIdFromUuid(ThisDevice.Uuid)
+
         ' Debug stuff
         ' Database.GetSnapshots(1)
         ' Database.AddSnapshot(Device)
 
-        lbDeviceUUID.Content = Device.Uuid
-        lbDeviceName.Content = Device.Hostname
-        ReadDevices()
-        ReadSoftwarelistFromDb()
+        lbDeviceUUID.Content = ThisDevice.Uuid
+        lbDeviceName.Content = ThisDevice.Hostname
+
+        CbDevices.IsEnabled = False
+        CbDevices.Items.Add("No devices in DB")
+        CbDevices.SelectedIndex = 0
+
+        CbSnapshots.IsEnabled = False
+        CbSnapshots.Items.Add("Not avaiable")
+        CbSnapshots.SelectedIndex = 0
+
+        DbDevices = Database.GetAllDevices()
+
+        If ThisDevice.DbID <> -1 Then
+            LoadSnapshotsForDevice()
+            LoadDevicesToCombobox()
+            LoadSnapshotsForDevice()
+        Else
+            LblStatus.Content = "No data found for this device in our database. Click 'READ INSTALLED SOFTWARE'."
+        End If
     End Sub
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
         lbSoftware.Items.Clear()
         LblStatus.Content = "Loading list of installed programs, this may take a while, please be patient."
-        LoadSoftwareList()
+        LoadSoftwareListFromWMI()
     End Sub
 
-    Private Async Sub LoadSoftwareList()
+    Private Async Sub LoadSoftwareListFromWMI()
         EnableControls(False)
         Mouse.OverrideCursor = Cursors.Wait
 
@@ -51,8 +77,12 @@ Class MainWindow
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-        Database.SaveList(Softlist, Device)
-        ReadSoftwarelistFromDb()
+        If ThisDevice.DbID = -1 Then
+            ThisDevice.DbID = Database.AddDevice(ThisDevice)
+        End If
+        Dim SnapshotID = Database.AddNewSnapshot(ThisDevice)
+        Database.SaveSoftwareList(Softlist, ThisDevice, SnapshotID)
+        ReadSoftwarelistFromDb(ThisDevice, SnapshotID)
 
         UpdateList(Softlist)
         EnableControls(True)
@@ -78,7 +108,7 @@ Class MainWindow
     End Function
 
     Private Sub BtnSaveDb_Click(sender As Object, e As RoutedEventArgs)
-        Database.SaveList(Softlist, Device)
+        'Database.SaveSoftwareList(Softlist, ThisDevice)
         LblStatus.Content = "Database saved."
     End Sub
 
@@ -96,8 +126,9 @@ Class MainWindow
             lbSoftware.Items.Add(soft.Name + " - Version " + soft.Version)
         Next
     End Sub
-    Private Sub ReadSoftwarelistFromDb()
-        Dim tmp = Database.LoadSoftwareListForDevice(Device, 1)
+
+    Private Sub ReadSoftwarelistFromDb(ByVal device As Device, ByVal SnapshotId As Integer)
+        Dim tmp = Database.LoadSoftwareListForDevice(device, SnapshotId)
         Dim lastupdate = tmp.Timestamp
         If lastupdate <> "-1" Then
             Softlist = tmp.Item1
@@ -115,23 +146,27 @@ Class MainWindow
         CbDevices.IsEnabled = enable
     End Sub
 
-    Private Sub ReadDevices()
-        CbSnapshots.IsEnabled = False
-        CbSnapshots.Items.Add("Select snapshot")
-        CbSnapshots.SelectedIndex = 0
-        CbDevices.Items.Add("Select device from DB")
-        CbDevices.SelectedIndex = 0
-        DbDevices = Database.GetDevices()
+    Private Sub LoadDevicesToCombobox()
         If DbDevices.Count > 0 Then
+            CbDevices.Items.Clear()
+            CbDevices.Items.Add("Select device from DB")
             For Each d In DbDevices
                 CbDevices.Items.Add(d.Hostname)
             Next
-        Else
-            CbDevices.Items(0) = "No devices in DB"
-            CbSnapshots.Items(0) = "Not avaiable"
-            CbDevices.IsEnabled = False
-            CbSnapshots.IsEnabled = False
+            CbDevices.IsEnabled = True
+            CbDevices.SelectedIndex = 0
         End If
+    End Sub
+
+    Private Sub LoadSnapshotsForDevice()
+        CbSnapshots.Items.Clear()
+        CbSnapshots.Items.Add("Select Snapshot")
+        ThisDevice.Snapshots = Database.GetAllSnapshotIdForDevice(ThisDevice.DbID)
+        For Each s In ThisDevice.Snapshots
+            CbSnapshots.Items.Add(s.Item1)
+        Next
+        CbSnapshots.IsEnabled = True
+        CbSnapshots.SelectedIndex = 0
     End Sub
 
     Private Function DBExists() As Boolean
@@ -158,5 +193,23 @@ Class MainWindow
 
     Private Sub Image_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
         Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2K5Z6QV5GREA4&source=url")
+    End Sub
+
+    Private Sub CbSnapshots_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbSnapshots.SelectionChanged
+        If CbSnapshots.SelectedIndex = 0 Or CbSnapshots.SelectedIndex = -1 Then Exit Sub
+        Dim Snapshotindex As Integer = 0
+        For Each i In Snapshots
+            If i.Item1 = CbSnapshots.SelectedItem Then
+                Snapshotindex = i.Item2
+            End If
+        Next
+
+        For Each d In DbDevices
+            If d.Hostname = CbDevices.SelectedValue Then
+                ThisDevice = d
+            End If
+        Next
+        ReadSoftwarelistFromDb(ThisDevice, Snapshotindex)
+
     End Sub
 End Class

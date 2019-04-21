@@ -3,43 +3,190 @@ Imports System.Data.SQLite
 
 Public Class Database
     Private Shared dbfile As String = My.Settings.databasefile
-    Private Shared sqlite_conn As SQLiteConnection
-    Public Shared Sub SaveList(ByVal Softlist As List(Of software), ByVal device As Device)
-        Dim DeviceId As Integer = GetIdFromUuid(device.Uuid)
-        If DeviceId = -1 Then
-            AddDevice(device)
-            DeviceId = GetIdFromUuid(device.Uuid)
-        End If
-        Dim SnapshotID As Long = AddSnapshot(DeviceId)
-        ' DeleteOldEntries(DeviceId)
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SOFTWARE] (
+    Public Shared Sub CreateTables()
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SNAPSHOTS] (
+                                  [SNAPSHOTID] INTEGER PRIMARY KEY,
+                                  [DEVICEID] INTEGER NOT NULL,
+                                  [TIMESTAMP] NVARCHAR(2048) NOT NULL)"
+
+            sqlite_cmd.ExecuteNonQuery()
+
+            sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SOFTWARE] (
                                   [Id] INTEGER PRIMARY KEY,
-                                  [MACHINEID] INTEGER NOT NULL,
+                                  [DEVICEID] INTEGER NOT NULL,
                                   [NAME] NVARCHAR(2048) NOT NULL,
                                   [VERSION] NVARCHAR(2048) NULL,
                                   [SNAPSHOTID] INTEGER NOT NULL)"
-        sqlite_cmd.ExecuteNonQuery()
-
-        For Each soft In Softlist
-            sqlite_cmd.CommandText = $"INSERT INTO SOFTWARE (MACHINEID, NAME, VERSION, SNAPSHOTID) VALUES ('{DeviceId}', '{soft.Name}', '{soft.Version}', {SnapshotID});"
             sqlite_cmd.ExecuteNonQuery()
-        Next
+
+            sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [DEVICES] (
+                                  [DEVICEID] INTEGER PRIMARY KEY,
+                                  [UUID] NVARCHAR(2048) NOT NULL,
+                                  [NAME] NVARCHAR(2048) NOT NULL,
+                                  [LASTUPDATE] NVARCHAR(2048) NULL)"
+            sqlite_cmd.ExecuteNonQuery()
+            sqlite_conn.Close()
+        End Using
     End Sub
+
+    Public Shared Function GetAllDevices() As List(Of Device)
+        Dim devices As List(Of Device) = New List(Of Device)
+        Dim id As Integer = 0
+
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT DEVICEID, NAME FROM DEVICES"
+            Try
+                Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+                If r.HasRows Then
+                    While r.Read
+                        Dim d = New Device
+                        d.Hostname = r("NAME")
+                        d.DbID = r("DEVICEID")
+                        devices.Add(d)
+                    End While
+                End If
+            Catch ex As Exception
+            End Try
+            sqlite_conn.Close()
+        End Using
+        Return devices
+    End Function
+
+    Public Shared Function GetDeviceIdFromUuid(ByVal uuid As String) As Integer
+        Dim id As Integer = 0
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT DEVICEID, UUID FROM DEVICES WHERE UUID = '{uuid}'"
+            Try
+                Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+                If r.HasRows Then
+                    r.Read()
+                    id = r("DEVICEID")
+                Else
+                    id = -1
+                End If
+            Catch ex As Exception
+                id = -1
+            End Try
+            sqlite_conn.Close()
+        End Using
+        Return id
+    End Function
+
+    Public Shared Function AddNewSnapshot(ByVal device As Device) As Long
+        Dim timestamp As String = DateTime.Now.ToLocalTime.ToString
+        Dim Id As Long = -1
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+
+            Using sqlite_cmd As SQLiteCommand = sqlite_conn.CreateCommand()
+                sqlite_cmd.CommandText = $"INSERT INTO SNAPSHOTS (DEVICEID, TIMESTAMP) VALUES ({device.DbID}, '{timestamp}');"
+                sqlite_cmd.ExecuteNonQuery()
+                sqlite_cmd.CommandText = $"SELECT last_insert_rowid()"
+                Id = sqlite_cmd.ExecuteScalar()
+            End Using
+            sqlite_conn.Close()
+        End Using
+        Return Id
+    End Function
+
+    Public Shared Function GetLatestSnapshotIdForDevice(ByVal DeviceId As Integer) As Integer
+        Dim Id As Integer = 0
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT * FROM SNAPSHOTS WHERE DEVICEID = {DeviceId}"
+            Try
+                Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+                If r.HasRows Then
+                    While r.Read
+                        Id = r("SNAPSHOTID")
+                    End While
+                End If
+            Catch ex As Exception
+                Id = -1
+            End Try
+            sqlite_conn.Close()
+        End Using
+        Return Id
+    End Function
+
+
+    Public Shared Function GetAllSnapshotIdForDevice(ByVal DeviceId As Integer) As List(Of Tuple(Of String, Long))
+        Dim Snaps As List(Of Tuple(Of String, Long)) = New List(Of Tuple(Of String, Long))
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT * FROM SNAPSHOTS WHERE DEVICEID = {DeviceId}"
+            Try
+                Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+                If r.HasRows Then
+                    While r.Read
+                        Dim s As Tuple(Of String, Long) = New Tuple(Of String, Long)(r("TIMESTAMP"), r("SNAPSHOTID"))
+                        Snaps.Add(s)
+                    End While
+                End If
+            Catch ex As Exception
+
+            End Try
+            sqlite_conn.Close()
+        End Using
+        Return Snaps
+    End Function
+
+
+    Public Shared Sub SaveSoftwareList(ByVal Softlist As List(Of software), ByVal device As Device, ByVal SnapshotID As Long)
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            Dim transaction As SQLiteTransaction = sqlite_conn.BeginTransaction()
+            For Each soft In Softlist
+                sqlite_cmd.CommandText = $"INSERT INTO SOFTWARE (DEVICEID, NAME, VERSION, SNAPSHOTID) VALUES ('{device.DbID}', '{soft.Name}', '{soft.Version}', {SnapshotID});"
+                sqlite_cmd.ExecuteNonQuery()
+            Next
+            Try
+                transaction.Commit()
+            Catch ex As Exception
+            End Try
+            sqlite_conn.Close()
+        End Using
+    End Sub
+
+    Public Shared Function AddDevice(ByVal device As Device) As Long
+        Dim timestamp As String = DateTime.Today.ToShortDateString
+        Dim Id As Long = -1
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+
+            Using tr As SQLiteTransaction = sqlite_conn.BeginTransaction()
+                Using sqlite_cmd As SQLiteCommand = sqlite_conn.CreateCommand()
+                    sqlite_cmd.Transaction = tr
+                    sqlite_cmd.CommandText = $"INSERT INTO DEVICES (UUID, NAME, LASTUPDATE) VALUES ('{device.Uuid}', '{device.Hostname}', '{timestamp}');"
+                    sqlite_cmd.ExecuteNonQuery()
+                End Using
+                tr.Commit()
+                Id = sqlite_conn.LastInsertRowId
+            End Using
+            sqlite_conn.Close()
+        End Using
+        Return Id
+    End Function
 
     Public Shared Function LoadSoftwareListForDevice(ByVal Device As Device, ByVal SnapshotId As Integer) As (List(Of software), Timestamp As String)
         Dim Softlist As List(Of software) = New List(Of software)
-        Dim DeviceId As Integer = GetIdFromUuid(Device.Uuid)
-        Dim ts As String = GetTimeStamp(DeviceId)
-
-        If DeviceId <> -1 Then
+        Dim ts As String = GetTimeStamp(Device.DbID)
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
             Try
-                sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
                 sqlite_conn.Open()
                 Dim sqlite_cmd = sqlite_conn.CreateCommand()
-                sqlite_cmd.CommandText = $"SELECT MACHINEID, NAME, VERSION FROM SOFTWARE WHERE (MACHINEID = {DeviceId} AND SNAPSHOTID = {SnapshotId}) ORDER BY NAME"
+                sqlite_cmd.CommandText = $"SELECT DEVICEID, NAME, VERSION FROM SOFTWARE WHERE (DEVICEID = {Device.DbID} AND SNAPSHOTID = {SnapshotId}) ORDER BY NAME"
                 Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
                 If r.HasRows Then
                     While r.Read
@@ -52,181 +199,27 @@ Public Class Database
             Catch ex As Exception
                 ts = "-1"
             End Try
-        End If
+            sqlite_conn.Close()
+        End Using
         Return (Softlist, ts)
     End Function
 
-    Public Shared Sub AddDevice(ByVal device As Device)
-        Dim timestamp As String = DateTime.Today.ToShortDateString
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [DEVICES] (
-                                  [Id] INTEGER PRIMARY KEY,
-                                  [MACHINEID] NVARCHAR(2048) NOT NULL,
-                                  [NAME] NVARCHAR(2048) NOT NULL,
-                                  [LASTUPDATE] NVARCHAR(2048) NULL)"
-        sqlite_cmd.ExecuteNonQuery()
-        sqlite_cmd.CommandText = $"INSERT INTO DEVICES (MACHINEID, NAME, LASTUPDATE) VALUES ('{device.Uuid}', '{device.Hostname}', '{timestamp}');"
-        sqlite_cmd.ExecuteNonQuery()
-    End Sub
-
-    Private Shared Function AddSnapshot(ByVal deviceid As Integer) As Long
-        Dim timestamp As String = DateTime.Now.ToLocalTime.ToString
-        Dim Id As Long = -1
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = "CREATE TABLE IF NOT EXISTS [SNAPSHOTS] (
-                                  [Id] INTEGER PRIMARY KEY,
-                                  [DEVICEID] INTEGER NOT NULL,
-                                  [TIMESTAMP] NVARCHAR(2048) NOT NULL)"
-        sqlite_cmd.ExecuteNonQuery()
-        Dim transaction As SQLiteTransaction = sqlite_conn.BeginTransaction()
-        sqlite_cmd.CommandText = $"INSERT INTO SNAPSHOTS (DEVICEID, TIMESTAMP) VALUES ({deviceid}, '{timestamp}');"
-        sqlite_cmd.ExecuteNonQuery()
-        Id = sqlite_conn.LastInsertRowId
-        Try
-            transaction.Commit()
-        Catch ex As Exception
-
-        End Try
-         Return Id
-    End Function
-
-
-    Public Shared Function GetIdFromUuid(ByVal uuid As String) As Integer
-        Dim id As Integer = 0
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT Id, MACHINEID FROM DEVICES WHERE MACHINEID LIKE '{uuid}'"
-        Try
-            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-            If r.HasRows Then
-                While r.Read
-                    id = r("Id")
-                End While
-            Else
-                id = -1
-            End If
-        Catch ex As Exception
-            id = -1
-        End Try
-        Return id
-    End Function
-
-    Public Shared Function GetDevices() As List(Of Device)
-        Dim devices As List(Of Device) = New List(Of Device)
-        Dim id As Integer = 0
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        Try
-            sqlite_conn.Open()
-        Catch ex As Exception
-            Return Nothing
-        End Try
-
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT Id, NAME FROM DEVICES"
-        Try
-            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-            If r.HasRows Then
-                While r.Read
-                    Dim d = New Device
-                    d.Hostname = r("NAME")
-                    d.DbID = r("Id")
-                    devices.Add(d)
-                End While
-            End If
-        Catch ex As Exception
-
-        End Try
-
-        Return devices
-    End Function
-
-    'Public Shared Function GetSnapshots(ByVal DeviceId As Integer) As List(Of Tuple(Of Integer, String))
-    '    Dim Snaps As List(Of Tuple(Of Integer, String)) = New List(Of Tuple(Of Integer, String))
-    '    sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-    '    sqlite_conn.Open()
-    '    Dim sqlite_cmd = sqlite_conn.CreateCommand()
-    '    sqlite_cmd.CommandText = $"SELECT * FROM SNAPSHOTS WHERE DEVICEID = {DeviceId}"
-    '    Try
-    '        Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-    '        If r.HasRows Then
-    '            While r.Read
-    '                Dim s As New Tuple(Of Integer, String)(r("DEVICEID"), r("TIMESTAMP"))
-    '                Snaps.Add(s)
-    '            End While
-    '        End If
-    '    Catch ex As Exception
-
-    '    End Try
-
-    '    Return Snaps
-    'End Function
-
-    Public Shared Function GetSnapshots(ByVal DeviceId As Integer) As List(Of String)
-        Dim Snaps As List(Of String) = New List(Of String)
-        Dim s As String = String.Empty
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT * FROM SNAPSHOTS WHERE DEVICEID = {DeviceId}"
-        Try
-            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-            If r.HasRows Then
-                While r.Read
-                    s = r("TIMESTAMP")
-                    Snaps.Add(s)
-                End While
-            End If
-        Catch ex As Exception
-
-        End Try
-
-        Return Snaps
-    End Function
-
-
-    Private Shared Function GetTimeStamp(ByVal MachineID As Integer) As String
+    Private Shared Function GetTimeStamp(ByVal DeviceID As Integer) As String
         Dim ts As String = String.Empty
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"SELECT Id, LASTUPDATE FROM DEVICES WHERE Id = {MachineID}"
-        Try
-            Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
-            While r.Read
-                ts = r("LASTUPDATE")
-            End While
-        Catch ex As Exception
-
-        End Try
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            sqlite_cmd.CommandText = $"SELECT DEVICEID, LASTUPDATE FROM DEVICES WHERE DEVICEID = {DeviceID}"
+            Try
+                Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
+                While r.Read
+                    ts = r("LASTUPDATE")
+                End While
+            Catch ex As Exception
+            End Try
+            sqlite_conn.Close()
+        End Using
         Return ts
     End Function
 
-    Private Shared Sub DeleteTable(ByVal TableName As String)
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"DELETE FROM {TableName}"
-        Try
-            sqlite_cmd.ExecuteNonQuery()
-        Catch ex As Exception
-
-        End Try
-    End Sub
-
-    Private Shared Sub DeleteOldEntries(ByVal MachineID As Integer)
-        sqlite_conn = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-        sqlite_conn.Open()
-        Dim sqlite_cmd = sqlite_conn.CreateCommand()
-        sqlite_cmd.CommandText = $"DELETE FROM SOFTWARE WHERE MACHINEID = {MachineID}"
-        Try
-            sqlite_cmd.ExecuteNonQuery()
-        Catch ex As Exception
-
-        End Try
-    End Sub
 End Class

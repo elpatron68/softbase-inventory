@@ -3,9 +3,8 @@
     Public Property Hostname As String
     Public Property Description As String
     Public Property DbID As Int32
+    Public Property Snapshots As List(Of Tuple(Of String, Long))
 
-    Public Sub New()
-        Me.Uuid = GetWMI_Info.GetUUID()
-        Me.Hostname = System.Environment.MachineName
-    End Sub
+    'Public Sub New()
+    'End Sub
 End Class
