@@ -180,23 +180,6 @@ Class MainWindow
         End If
     End Function
 
-    Private Sub MnExit_Click(sender As Object, e As RoutedEventArgs) Handles MnExit.Click
-        Close()
-    End Sub
-
-    Private Sub MnSettings_Click(sender As Object, e As RoutedEventArgs) Handles MnSettings.Click
-        Dim SettingsWindow = New Settings
-        SettingsWindow.ShowDialog()
-    End Sub
-
-    Private Sub MnDonate_Click(sender As Object, e As RoutedEventArgs) Handles MnDonate.Click
-        Dim DonateWindow = New Donate
-        DonateWindow.ShowDialog()
-    End Sub
-
-    Private Sub Image_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
-        Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2K5Z6QV5GREA4&source=url")
-    End Sub
 
     Private Sub CbSnapshots_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbSnapshots.SelectionChanged
         If CbSnapshots.SelectedIndex = 0 Or CbSnapshots.SelectedIndex = -1 Then Exit Sub
@@ -223,4 +206,63 @@ Class MainWindow
         ThisDevice = Database.GetDeviceFromUuid(uuid)
         LoadSnapshotsForDevice()
     End Sub
+#Region "Menu click events"
+    Private Sub MnExit_Click(sender As Object, e As RoutedEventArgs) Handles MnExit.Click
+        Close()
+    End Sub
+
+    Private Sub MnSettings_Click(sender As Object, e As RoutedEventArgs) Handles MnSettings.Click
+        Dim SettingsWindow = New Settings
+        SettingsWindow.ShowDialog()
+    End Sub
+
+    Private Sub MnDonate_Click(sender As Object, e As RoutedEventArgs) Handles MnDonate.Click
+        Dim DonateWindow = New Donate
+        DonateWindow.ShowDialog()
+    End Sub
+
+    Private Sub Image_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
+        Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2K5Z6QV5GREA4&source=url")
+    End Sub
+#End Region
+
+#Region "License menu items"
+    Private Sub SoftBase_Click(sender As Object, e As RoutedEventArgs) Handles SoftBase.Click
+        Dim unused = Process.Start("http://www.gnu.de/documents/gpl-3.0.en.html")
+    End Sub
+
+    Private Sub CommonLogging_Click(sender As Object, e As RoutedEventArgs) Handles CommonLogging.Click
+        Dim unused = Process.Start("https://raw.githubusercontent.com/net-commons/common-logging/master/license.txt")
+    End Sub
+
+    Private Sub ControlzEx_Click(sender As Object, e As RoutedEventArgs) Handles ControlzEx.Click
+        Dim unused = Process.Start("https://raw.githubusercontent.com/ControlzEx/ControlzEx/master/LICENSE")
+    End Sub
+
+    Private Sub EntityFramework_Click(sender As Object, e As RoutedEventArgs) Handles EntityFramework.Click
+        Process.Start("https://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm")
+    End Sub
+
+    Private Sub Itext7_Click(sender As Object, e As RoutedEventArgs) Handles itext7.Click
+        Process.Start("https://www.gnu.org/licenses/agpl.html")
+    End Sub
+
+    Private Sub MahAppsMetro_Click(sender As Object, e As RoutedEventArgs) Handles MahAppsMetro.Click
+        Process.Start("https://raw.githubusercontent.com/MahApps/MahApps.Metro/master/LICENSE")
+    End Sub
+
+    Private Sub MicrosoftCSharp_Click(sender As Object, e As RoutedEventArgs) Handles MicrosoftCSharp.Click
+        Process.Start("https://raw.githubusercontent.com/dotnet/corefx/master/LICENSE.TXT")
+    End Sub
+
+    Private Sub PortableBouncyCastle_Click(sender As Object, e As RoutedEventArgs) Handles PortableBouncyCastle.Click
+        Process.Start("https://www.bouncycastle.org/csharp/licence.html")
+    End Sub
+
+    Private Sub SystemDataSQLite_Click(sender As Object, e As RoutedEventArgs) Handles SystemDataSQLite.Click
+        Process.Start("https://www.sqlite.org/copyright.html")
+    End Sub
+
+#End Region
+
 End Class

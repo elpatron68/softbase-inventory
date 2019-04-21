@@ -19,7 +19,19 @@
                 <MenuItem x:Name="MnExit" Header="_Exit"/>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem x:Name="MnLicenses" Header="_Licenses"/>
+                <MenuItem Header="_Licenses">
+                    <MenuItem x:Name="SoftBase" Header="_SoftBase License"/>
+                    <MenuItem Header="_3rd party licenses">
+                        <MenuItem x:Name="CommonLogging" Header="Common.Logging .NET"/>
+                        <MenuItem x:Name="ControlzEx" Header="ControlzEx"/>
+                        <MenuItem x:Name="EntityFramework" Header="EntityFramework"/>
+                        <MenuItem x:Name="itext7" Header="itext7"/>
+                        <MenuItem x:Name="MahAppsMetro" Header="MahApps.Metro"/>
+                        <MenuItem x:Name="MicrosoftCSharp" Header="Microsoft.CSharp"/>
+                        <MenuItem x:Name="PortableBouncyCastle" Header="Portable.BouncyCastle"/>
+                        <MenuItem x:Name="SystemDataSQLite" Header="System.Data.SQLite"/>
+                    </MenuItem>
+                </MenuItem>
                 <MenuItem x:Name="MnAbout" Header="_About"/>
             </MenuItem>
         </Menu>
