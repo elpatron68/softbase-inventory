@@ -1,6 +1,4 @@
-﻿Imports System
-Imports System.IO
-Imports iText.IO.Font.Constants
+﻿Imports iText.IO.Font.Constants
 Imports iText.Kernel.Font
 Imports iText.Kernel.Pdf
 Imports iText.Layout
