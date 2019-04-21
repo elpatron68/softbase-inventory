@@ -39,13 +39,14 @@ Public Class Database
         Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
             sqlite_conn.Open()
             Dim sqlite_cmd = sqlite_conn.CreateCommand()
-            sqlite_cmd.CommandText = $"SELECT DEVICEID, NAME FROM DEVICES"
+            sqlite_cmd.CommandText = $"SELECT DEVICEID, UUID, NAME FROM DEVICES"
             Try
                 Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
                 If r.HasRows Then
                     While r.Read
                         Dim d = New Device
                         d.Hostname = r("NAME")
+                        d.Uuid = r("UUID")
                         d.DbID = r("DEVICEID")
                         devices.Add(d)
                     End While
