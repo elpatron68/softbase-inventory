@@ -15,7 +15,11 @@ Public Class SelectExportFile
             .InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             .CheckFileExists = False
             .CheckPathExists = True
-            .Filter = $"PDF files (*.{FT})|*.{FT}|All files (*.*)|*.*"
+            If FT = "pdf" Then
+                .Filter = $"PDF files (*.{FT})|*.{FT}|All files (*.*)|*.*"
+            ElseIf FT = "xlsx" Then
+                .Filter = $"Excel files (*.{FT})|*.{FT}|All files (*.*)|*.*"
+            End If
             .FileName = $"SoftBase-Inventory-Export.{FT}"
         End With
         If Ofd.ShowDialog() = True Then
