@@ -22,6 +22,5 @@ Public Class Settings
         If Ofd.ShowDialog() = True Then
             TxDatabasepath.Text = Ofd.FileName
         End If
-
     End Sub
 End Class

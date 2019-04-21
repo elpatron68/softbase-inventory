@@ -1,0 +1,16 @@
+﻿<Controls:MetroWindow x:Class="SelectExportFile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:SoftBase"
+        mc:Ignorable="d"
+        Title="Select export file name" Height="170" Width="600">
+    <Grid>
+        <TextBox x:Name="TxExportFile" HorizontalAlignment="Left" Height="23" Margin="10,60,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="470"/>
+        <Label Content="Export file name" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="BtnBrowse" Content="Browse" HorizontalAlignment="Left" Margin="494,60,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="Export" Content="Export" HorizontalAlignment="Left" Margin="494,100,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Controls:MetroWindow>

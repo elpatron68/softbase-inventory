@@ -1,6 +1,8 @@
 ﻿Imports System.IO
 Imports System.Threading
-'Imports MahApps.Metro.Controls
+Imports MahApps.Metro.Controls
+Imports MahApps.Metro.Controls.Dialogs
+
 Class MainWindow
     Private Shared Softlist As List(Of software) = New List(Of software)
     Private Shared ThisDevice As Device
@@ -25,8 +27,6 @@ Class MainWindow
         ThisDevice.DbID = Database.GetDeviceIdFromUuid(ThisDevice.Uuid)
 
         ' Debug stuff
-        ' Database.GetSnapshots(1)
-        ' Database.AddSnapshot(Device)
 
         lbDeviceUUID.Content = ThisDevice.Uuid
         lbDeviceName.Content = ThisDevice.Hostname
@@ -38,6 +38,9 @@ Class MainWindow
         CbSnapshots.IsEnabled = False
         CbSnapshots.Items.Add("Not avaiable")
         CbSnapshots.SelectedIndex = 0
+
+        BtnExportPDF.IsEnabled = False
+        BtnExportXls.IsEnabled = False
 
         DbDevices = Database.GetAllDevices()
 
@@ -110,8 +113,16 @@ Class MainWindow
     End Function
 
     Private Sub BtnExportPDF_Click(sender As Object, e As RoutedEventArgs)
-        PdfExport.CreatePdf("test.pdf", Softlist)
-        LblStatus.Content = "Software list exported to 'test.pdf'"
+        Dim FileDialog = New SelectExportFile("pdf")
+        Dim result = FileDialog.ShowDialog()
+        Dim filename = SelectExportFile.FN
+        LblStatus.Content = $"Software list exported to {filename}"
+        'Me.Dispatcher.BeginInvoke(Sub()
+        '                              Me.ShowMessageAsync("Title", "Text")
+        '                          End Sub)
+
+        PdfExport.CreatePdf(filename, Softlist)
+        LblStatus.Content = $"Software list exported to {filename}"
     End Sub
 
     Private Sub BtnSaveXls_Click(sender As Object, e As RoutedEventArgs)
@@ -131,6 +142,7 @@ Class MainWindow
             Softlist = tmp.Item1
             If Softlist.Count > 0 Then
                 UpdateList(Softlist)
+                EnableControls(True)
                 LblStatus.Content = $"Data loaded from database. Last updated: {lastupdate}"
             End If
         End If
@@ -141,6 +153,7 @@ Class MainWindow
         BtnExportXls.IsEnabled = enable
         BtnExportPDF.IsEnabled = enable
         CbDevices.IsEnabled = enable
+        CbSnapshots.IsEnabled = enable
     End Sub
 
     Private Sub LoadDevicesToCombobox()
