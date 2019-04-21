@@ -15,6 +15,7 @@ Class MainWindow
         If DBExists() = False Then
             Dim SettingsWindow = New Settings
             SettingsWindow.ShowDialog()
+            LblDatabase.Content = $"DB: {My.Settings.databasefile}"
         End If
 
         ThisDevice = New Device With {
@@ -200,6 +201,7 @@ Class MainWindow
     Private Sub MnSettings_Click(sender As Object, e As RoutedEventArgs) Handles MnSettings.Click
         Dim SettingsWindow = New Settings
         SettingsWindow.ShowDialog()
+        LblDatabase.Content = $"DB: {My.Settings.databasefile}"
     End Sub
 
     Private Sub MnDonate_Click(sender As Object, e As RoutedEventArgs) Handles MnDonate.Click
