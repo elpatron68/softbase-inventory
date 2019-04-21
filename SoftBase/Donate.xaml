@@ -6,12 +6,12 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:SoftBase"
         mc:Ignorable="d"
-        Title="Donate" Height="500" Width="500" WindowStyle="ToolWindow" Loaded="Window_Loaded">
+        Title="Donate" Height="560" Width="500" WindowStyle="ToolWindow" Loaded="Window_Loaded">
     <Grid>
-        <TextBox x:Name="TxText" HorizontalAlignment="Left" Height="110" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="497" BorderThickness="0"  />
-        <Label Content="Scan the QR code for a Paypal donation" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top"/>
-        <Image HorizontalAlignment="Center" Height="192" Margin="10,156,0,0" VerticalAlignment="Top" Width="192" Source="img/Paypal-Donate-QR-Code.png"  />
-        <Label Content="Or click the 'Donate' image to open my Paypal donation page in your web browser" HorizontalAlignment="Left" Margin="10,365,0,0" VerticalAlignment="Top"/>
-        <Image HorizontalAlignment="Center" Height="47" Margin="10,395,0,0" VerticalAlignment="Top" Width="92" Source="img/btn_donateCC_LG.bmp" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand"/>
+        <TextBox x:Name="TxText" HorizontalAlignment="Left" Height="180" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="475" BorderThickness="0" FontSize="14"/>
+        <Label Content="Scan the QR code for a Paypal donation" HorizontalAlignment="Center" Margin="10,200,0,0" VerticalAlignment="Top"  FontSize="14"/>
+        <Image HorizontalAlignment="Center" Height="192" Margin="10,230,0,0" VerticalAlignment="Top" Width="192" Source="img/Paypal-Donate-QR-Code.png"  />
+        <Label Content="Or click the 'Donate' image to open my Paypal donation page:" HorizontalAlignment="Center" Margin="10,440,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Image HorizontalAlignment="Center" Height="47" Margin="10,470,0,0" VerticalAlignment="Top" Width="92" Source="img/btn_donateCC_LG.bmp" MouseLeftButtonDown="Image_MouseLeftButtonDown" Cursor="Hand"/>
     </Grid>
 </Controls:MetroWindow>
