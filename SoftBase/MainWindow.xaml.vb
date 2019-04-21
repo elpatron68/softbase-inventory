@@ -118,8 +118,13 @@ Class MainWindow
         Dim result = FileDialog.ShowDialog()
         Dim filename = SelectExportFile.FN
         Dim ts = CbSnapshots.SelectedItem
-        PdfExport.CreatePdf(filename, Softlist, ThisDevice, ts)
-        LblStatus.Content = $"Software list exported to {filename}"
+        If filename <> Nothing Then
+            PdfExport.CreatePdf(filename, Softlist, ThisDevice, ts)
+            LblStatus.Content = $"Software list exported to {filename}"
+        Else
+            LblStatus.Content = "Export cancelled"
+        End If
+
     End Sub
 
     Private Sub BtnSaveXls_Click(sender As Object, e As RoutedEventArgs)
@@ -127,8 +132,12 @@ Class MainWindow
         Dim result = FileDialog.ShowDialog()
         Dim filename = SelectExportFile.FN
         Dim ts = CbSnapshots.SelectedItem
-        ExcelExport.CreateXSLT(filename, Softlist, ThisDevice, ts)
-        LblStatus.Content = $"Software list exported to {filename}"
+        If filename <> Nothing Then
+            ExcelExport.CreateXSLT(filename, Softlist, ThisDevice, ts)
+            LblStatus.Content = $"Software list exported to {filename}"
+        Else
+            LblStatus.Content = "Export cancelled"
+        End If
     End Sub
 
 #End Region
