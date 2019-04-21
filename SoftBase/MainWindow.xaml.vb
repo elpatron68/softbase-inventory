@@ -112,6 +112,7 @@ Class MainWindow
         Return Nothing
     End Function
 
+#Region "File exports"
     Private Sub BtnExportPDF_Click(sender As Object, e As RoutedEventArgs)
         Dim FileDialog = New SelectExportFile("pdf")
         Dim result = FileDialog.ShowDialog()
@@ -129,6 +130,8 @@ Class MainWindow
         ExcelExport.CreateXSLT(filename, Softlist, ThisDevice, ts)
         LblStatus.Content = $"Software list exported to {filename}"
     End Sub
+
+#End Region
     Private Sub UpdateList(ByVal softlist As List(Of software))
         lbSoftware.Items.Clear()
         For Each soft In softlist
