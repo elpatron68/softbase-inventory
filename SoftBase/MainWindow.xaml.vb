@@ -121,7 +121,7 @@ Class MainWindow
         '                              Me.ShowMessageAsync("Title", "Text")
         '                          End Sub)
 
-        PdfExport.CreatePdf(filename, Softlist)
+        PdfExport.CreatePdf(filename, Softlist, ThisDevice)
         LblStatus.Content = $"Software list exported to {filename}"
     End Sub
 
