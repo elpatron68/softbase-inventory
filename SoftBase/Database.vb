@@ -142,7 +142,7 @@ Public Class Database
         Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
             sqlite_conn.Open()
             Dim sqlite_cmd = sqlite_conn.CreateCommand()
-            sqlite_cmd.CommandText = $"SELECT * FROM SNAPSHOTS WHERE DEVICEID = {DeviceId}"
+            sqlite_cmd.CommandText = $"SELECT * FROM SNAPSHOTS WHERE DEVICEID = {DeviceId} ORDER BY TIMESTAMP DESC"
             Try
                 Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
                 If r.HasRows Then
