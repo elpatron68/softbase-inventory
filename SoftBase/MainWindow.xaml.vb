@@ -181,20 +181,6 @@ Class MainWindow
         If CbSnapshots.SelectedIndex = 0 Or CbSnapshots.SelectedIndex = -1 Then Exit Sub
         Dim index = ThisDevice.Snapshots(CbSnapshots.SelectedIndex - 1).Item2
         ReadSoftwarelistFromDb(ThisDevice, index)
-        'Dim Snapshotindex As Integer = 0
-        'For Each i In Snapshots
-        '    If i.Item1 = CbSnapshots.SelectedItem Then
-        '        Snapshotindex = i.Item2
-        '    End If
-        'Next
-
-        'For Each d In DbDevices
-        '    If d.Hostname = CbDevices.SelectedValue Then
-        '        ThisDevice = d
-        '    End If
-        'Next
-        'ReadSoftwarelistFromDb(ThisDevice, Snapshotindex)
-
     End Sub
 
     Private Sub CbDevices_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbDevices.SelectionChanged
