@@ -42,9 +42,9 @@
             <Label x:Name="lbDeviceUUID" Content="Device UUID" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" FontSize="12"/>
             <Label Content="Device Name" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" FontSize="14"/>
             <Label x:Name="lbDeviceName" Content="Device name" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <Button x:Name="BtnRetrieve" Content="Read installed software" HorizontalAlignment="Left" Margin="10,0,0,192.333" VerticalAlignment="Bottom" Width="180" Click="BtnRetrieve_Click"/>
-            <Button x:Name="BtnExportXls" Content="Save to Excel" HorizontalAlignment="Left" Margin="10,0,0,160" VerticalAlignment="Bottom" Width="180" Click="BtnSaveXls_Click"/>
-            <Button x:Name="BtnExportPDF" Content="Save to PDF file" HorizontalAlignment="Left" Margin="10,0,0,128" VerticalAlignment="Bottom" Width="180" Click="BtnExportPDF_Click"/>
+            <Button x:Name="BtnRetrieve" Content="_Read installed software" HorizontalAlignment="Left" Margin="10,0,0,192.333" VerticalAlignment="Bottom" Width="180" Click="BtnRetrieve_Click" />
+            <Button x:Name="BtnExportXls" Content="Save to _Excel" HorizontalAlignment="Left" Margin="10,0,0,160" VerticalAlignment="Bottom" Width="180" Click="BtnSaveXls_Click"/>
+            <Button x:Name="BtnExportPDF" Content="Save to _PDF" HorizontalAlignment="Left" Margin="10,0,0,128" VerticalAlignment="Bottom" Width="180" Click="BtnExportPDF_Click"/>
             <Image Height="21" Margin="10,0,0,45.333" VerticalAlignment="Bottom" Width="74" HorizontalAlignment="Left"  MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="img/btn_donate_SM.bmp" Cursor="Hand"/>
             <ListBox x:Name="lbSoftware" Margin="280,0,30,61.333" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True"/>
             <StatusBar x:Name="Statusbar" Height="40" Margin="0,0" VerticalAlignment="Bottom">
