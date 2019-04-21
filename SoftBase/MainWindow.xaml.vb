@@ -116,17 +116,18 @@ Class MainWindow
         Dim FileDialog = New SelectExportFile("pdf")
         Dim result = FileDialog.ShowDialog()
         Dim filename = SelectExportFile.FN
-        LblStatus.Content = $"Software list exported to {filename}"
-        'Me.Dispatcher.BeginInvoke(Sub()
-        '                              Me.ShowMessageAsync("Title", "Text")
-        '                          End Sub)
         Dim ts = CbSnapshots.SelectedItem
         PdfExport.CreatePdf(filename, Softlist, ThisDevice, ts)
         LblStatus.Content = $"Software list exported to {filename}"
     End Sub
 
     Private Sub BtnSaveXls_Click(sender As Object, e As RoutedEventArgs)
-
+        Dim FileDialog = New SelectExportFile("pdf")
+        Dim result = FileDialog.ShowDialog()
+        Dim filename = SelectExportFile.FN
+        Dim ts = CbSnapshots.SelectedItem
+        ExcelExport.CreateXSLT(filename, Softlist, ThisDevice, ts)
+        LblStatus.Content = $"Software list exported to {filename}"
     End Sub
     Private Sub UpdateList(ByVal softlist As List(Of software))
         lbSoftware.Items.Clear()

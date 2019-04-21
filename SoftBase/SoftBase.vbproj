@@ -151,6 +151,7 @@
     <Compile Include="Donate.xaml.vb">
       <DependentUpon>Donate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExcelExport.vb" />
     <Compile Include="GetWMI_Info.vb" />
     <Compile Include="PdfExport.vb" />
     <Compile Include="SelectExportFile.xaml.vb">
