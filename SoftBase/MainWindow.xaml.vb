@@ -179,6 +179,8 @@ Class MainWindow
 #Region "Events from ComboBoxes"
     Private Sub CbSnapshots_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles CbSnapshots.SelectionChanged
         If CbSnapshots.SelectedIndex = 0 Or CbSnapshots.SelectedIndex = -1 Then Exit Sub
+        Dim index = ThisDevice.Snapshots(CbSnapshots.SelectedIndex - 1).Item2
+        ReadSoftwarelistFromDb(ThisDevice, index)
         'Dim Snapshotindex As Integer = 0
         'For Each i In Snapshots
         '    If i.Item1 = CbSnapshots.SelectedItem Then
