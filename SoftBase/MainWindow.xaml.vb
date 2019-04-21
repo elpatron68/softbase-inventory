@@ -224,7 +224,6 @@ Class MainWindow
     Private Sub Image_MouseLeftButtonDown(sender As Object, e As MouseButtonEventArgs)
         Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2K5Z6QV5GREA4&source=url")
     End Sub
-#End Region
 
 #Region "License menu items"
     Private Sub SoftBase_Click(sender As Object, e As RoutedEventArgs) Handles SoftBase.Click
@@ -262,6 +261,8 @@ Class MainWindow
     Private Sub SystemDataSQLite_Click(sender As Object, e As RoutedEventArgs) Handles SystemDataSQLite.Click
         Process.Start("https://www.sqlite.org/copyright.html")
     End Sub
+
+#End Region
 
 #End Region
 
