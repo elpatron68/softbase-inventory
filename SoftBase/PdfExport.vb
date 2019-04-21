@@ -13,7 +13,7 @@ Public Class PdfExport
         Dim pdf As PdfDocument = New PdfDocument(writer)
         Dim document As Document = New Document(pdf)
         Dim font As PdfFont = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD)
-        document.Add(New Paragraph($"Software inventory for machine {device.Hostname} created at {SnapshotTimestamp}:").SetFont(font))
+        document.Add(New Paragraph($"Software inventory for machine {device.Hostname} created at {SnapshotTimestamp}").SetFont(font))
         font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ITALIC)
         document.Add(New Paragraph($"Machine´s Unique Id: {device.Uuid}").SetFont(font))
         font = PdfFontFactory.CreateFont(StandardFonts.COURIER)
