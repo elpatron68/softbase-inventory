@@ -13,15 +13,15 @@ Public Class ExcelExport
             Dim worksheet As ExcelWorksheet = package.Workbook.Worksheets.Add("SoftBase Inventory")
             worksheet.Cells(1, 1).Value = "SoftBase Inventory Report"
             worksheet.Cells(2, 1).Value = "Device name"
-            worksheet.Cells(2, 2).Value = device.Hostname
-            worksheet.Cells(2, 4).Value = "Inventory timestamp"
-            worksheet.Cells(2, 5).Value = SnapshotTimestamp
-            worksheet.Cells(3, 1).Value = "Device Unique Identifier"
-            worksheet.Cells(3, 2).Value = device.Uuid
+            worksheet.Cells(3, 1).Value = device.Hostname
+            worksheet.Cells(5, 1).Value = "Inventory timestamp"
+            worksheet.Cells(6, 1).Value = SnapshotTimestamp
+            worksheet.Cells(8, 1).Value = "Device Unique Identifier"
+            worksheet.Cells(9, 1).Value = device.Uuid
 
-            worksheet.Cells(5, 1).Value = "Program name"
-            worksheet.Cells(5, 2).Value = "Version"
-            Dim linecount As Integer = 6
+            worksheet.Cells(11, 1).Value = "Program name"
+            worksheet.Cells(11, 2).Value = "Version"
+            Dim linecount As Integer = 12
             For Each s In softlist
                 worksheet.Cells(linecount, 1).Value = s.Name
                 worksheet.Cells(linecount, 2).Value = s.Version
