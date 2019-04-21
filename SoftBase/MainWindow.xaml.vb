@@ -86,7 +86,7 @@ Class MainWindow
         UpdateList(Softlist)
         EnableControls(True)
         Mouse.OverrideCursor = Nothing
-        LblStatus.Content = "List of installed programs updated."
+        LblStatus.Content = "List of installed programs updated and saved."
     End Sub
 
     Private Function DoWork(ByVal token As CancellationToken) As Integer
