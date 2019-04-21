@@ -15,8 +15,9 @@ Class MainWindow
         If DBExists() = False Then
             Dim SettingsWindow = New Settings
             SettingsWindow.ShowDialog()
-            LblDatabase.Content = $"DB: {My.Settings.databasefile}"
         End If
+
+        LblDatabase.Content = $"DB: {My.Settings.databasefile}"
 
         ThisDevice = New Device With {
             .Uuid = GetWMI_Info.GetUUID(),
