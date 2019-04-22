@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Markus Busche"
 #define MyAppURL "https://github.com/elpatron68"
-#define MyAppExeName "MyProg.exe"
+#define MyAppExeName "SoftBase.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,8 +21,8 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\LICENSE.txt
-OutputDir=C:\Users\mbusc\source\repos\SoftBase\innosetup\out
+LicenseFile=..\SoftBase\bin\Release\LICENSE.txt
+OutputDir=.\out
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
@@ -34,19 +34,16 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Program Files (x86)\Inno Setup 5\Examples\MyProg.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\SoftBase.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\MahApps.Metro.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\SoftBase.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\mbusc\source\repos\SoftBase\SoftBase\bin\Release\x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "..\SoftBase\bin\Release\*.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SoftBase\bin\Release\x64\*"; DestDir: "{app}\x64\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\SoftBase\bin\Release\x86\*"; DestDir: "{app}\x86\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commonprograms}\SoftBase Inventory"; Filename: "{app}\SoftBase.exe"
+Name: "{commondesktop}\SoftBase Inventory"; Filename: "{app}\SoftBase.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[UninstallDelete]
+Type: filesandordirs; Name: "{app}"

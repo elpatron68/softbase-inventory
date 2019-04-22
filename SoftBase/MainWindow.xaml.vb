@@ -12,12 +12,16 @@ Class MainWindow
 
     Public Sub New()
         InitializeComponent()
-        Database.CreateTables()
+    End Sub
+
+    Private Sub InitWindow()
 
         If DBExists() = False Then
             Dim SettingsWindow = New Settings
             SettingsWindow.ShowDialog()
         End If
+
+        Database.CreateTables()
 
         ThisDevice = New Device With {
             .Uuid = GetWMI_Info.GetUUID(),
@@ -281,6 +285,10 @@ Class MainWindow
 
     Private Sub SystemDataSQLite_Click(sender As Object, e As RoutedEventArgs) Handles SystemDataSQLite.Click
         Process.Start("https://www.sqlite.org/copyright.html")
+    End Sub
+
+    Private Sub Mw_Loaded(sender As Object, e As RoutedEventArgs) Handles mw.Loaded
+        InitWindow()
     End Sub
 
 
