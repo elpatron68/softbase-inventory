@@ -52,7 +52,6 @@ Class MainWindow
         LblStatus.Content = "Ready."
 
         If ThisDevice.DbID <> -1 Then
-            LoadSnapshotsForDevice()
             LoadDevicesToCombobox()
             LoadSnapshotsForDevice()
         Else
@@ -90,10 +89,19 @@ Class MainWindow
             ThisDevice.DbID = Database.AddDevice(ThisDevice)
         End If
         Dim SnapshotID = Database.AddNewSnapshot(ThisDevice)
+        ' Save list to database
         Database.SaveSoftwareList(Softlist, ThisDevice, SnapshotID)
+        ' Read from database to be sure everything worked (and to have it sorted by name)
         ReadSoftwarelistFromDb(ThisDevice, SnapshotID)
-
+        ' Update listbox
         UpdateList(Softlist)
+        ' Reread devices from database
+        DbDevices = Database.GetAllDevices()
+        ' Load devies to combobox
+        LoadDevicesToCombobox()
+        ' Load snapshots
+        LoadSnapshotsForDevice()
+
         EnableControls(True)
         Mouse.OverrideCursor = Nothing
         LblStatus.Content = "Loaded and saved list of installed programs."
