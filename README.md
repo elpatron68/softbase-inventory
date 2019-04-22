@@ -8,7 +8,7 @@ SoftBase Inventory is a simple tool to inventory installed programs of one or mu
 
 ## Features
 
-- Read list of installed programs from WMI (Windows Management Interface)
+- Read a list of installed programs from WMI (Windows Management Interface)
 - Automatically save results to a Sqlite database
 - Export reports as PDF or Excel file
 - Manage inventories of multiple devices with different timestamps
