@@ -19,6 +19,14 @@ Class MainWindow
             Await ShowMessageAsync("No database file defined", "Please select a new or existing database file in the next dialog!")
             Dim SettingsWindow = New Settings
             SettingsWindow.ShowDialog()
+            ' Reread devices from database
+            DbDevices = Database.GetAllDevices()
+            ' Load devies and snapshots to combobox
+            If DbDevices.Count > 0 Then
+                LoadDevicesToCombobox()
+                ' Load snapshots
+                LoadSnapshotsForDevice()
+            End If
         End If
 
         Database.CreateTables()
@@ -98,10 +106,12 @@ Class MainWindow
         UpdateList(Softlist)
         ' Reread devices from database
         DbDevices = Database.GetAllDevices()
-        ' Load devies to combobox
-        LoadDevicesToCombobox()
-        ' Load snapshots
-        LoadSnapshotsForDevice()
+        ' Load devies and snapshots to combobox
+        If DbDevices.Count > 0 Then
+            LoadDevicesToCombobox()
+            ' Load snapshots
+            LoadSnapshotsForDevice()
+        End If
 
         EnableControls(True)
         Mouse.OverrideCursor = Nothing
