@@ -14,9 +14,9 @@ Class MainWindow
         InitializeComponent()
     End Sub
 
-    Private Sub InitWindow()
-
+    Private Async Function InitWindowAsync() As Task
         If DBExists() = False Then
+            Await ShowMessageAsync("No database file defined", "Please select a new or existing database file in the next dialog!")
             Dim SettingsWindow = New Settings
             SettingsWindow.ShowDialog()
         End If
@@ -58,7 +58,7 @@ Class MainWindow
         Else
             LblStatus.Content = "No data found for this device in our database. Click 'READ INSTALLED SOFTWARE'."
         End If
-    End Sub
+    End Function
 
     Private Sub BtnRetrieve_Click(sender As Object, e As RoutedEventArgs)
         lbSoftware.Items.Clear()
@@ -288,7 +288,7 @@ Class MainWindow
     End Sub
 
     Private Sub Mw_Loaded(sender As Object, e As RoutedEventArgs) Handles mw.Loaded
-        InitWindow()
+        InitWindowAsync()
     End Sub
 
 

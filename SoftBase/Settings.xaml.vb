@@ -2,7 +2,11 @@
 
 Public Class Settings
     Private Sub MetroWindow_Loaded(sender As Object, e As RoutedEventArgs)
-        TxDatabasepath.Text = My.Settings.databasefile
+        If My.Settings.databasefile <> "" Then
+            TxDatabasepath.Text = My.Settings.databasefile
+        Else
+            TxDatabasepath.Text = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\SoftBase-Inventory.sqlite"
+        End If
     End Sub
 
     Private Sub MetroWindow_Closed(sender As Object, e As EventArgs)
