@@ -56,7 +56,7 @@ All third party licenses are linked in the menu `Help` - `Licenses` - `3rd party
 
 ## Help Wanted
 
-If you have an idea how to translate WPF applications in a cofortable way to other languages: 
+If you have an idea how to translate WPF applications in a comfortable way to other languages: 
 Let me know (or fork this project and create a pull request).
 
 ## Author
