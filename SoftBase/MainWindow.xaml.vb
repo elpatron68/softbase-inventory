@@ -311,7 +311,6 @@ Class MainWindow
         InitWindowAsync()
     End Sub
 
-
 #End Region
 
 #End Region
