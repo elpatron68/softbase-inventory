@@ -39,8 +39,8 @@ Source: "..\SoftBase\bin\Release\x64\*"; DestDir: "{app}\x64\"; Flags: ignorever
 Source: "..\SoftBase\bin\Release\x86\*"; DestDir: "{app}\x86\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{commonprograms}\SoftBase Inventory"; Filename: "{app}\SoftBase.exe"; IconFilename: "..\SoftBase\img\shipment_upload_cBW_icon.ico"
-Name: "{commondesktop}\SoftBase Inventory"; Filename: "{app}\SoftBase.exe"; IconFilename: "..\SoftBase\img\shipment_upload_cBW_icon.ico"; Tasks: desktopicon
+Name: "{commonprograms}\SoftBase Inventory"; Filename: "{app}\SoftBase.exe"; IconFilename: "{app}\SoftBase.exe"
+Name: "{commondesktop}\SoftBase Inventory"; Filename: "{app}\SoftBase.exe"; IconFilename: "{app}\SoftBase.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
