@@ -26,7 +26,7 @@ SoftBase Inventory is a simple tool to inventory installed programs of one or mu
 
 ### Chocolatey Install
 
-A [Chocolatey]() package for simple installation and automatic updating will be added in the future.
+A [Chocolatey](https://chocolatey.org/) package for installation and easy updating will be added in the near future.
 
 ### Manual Download
 
