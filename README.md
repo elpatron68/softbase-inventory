@@ -1,7 +1,7 @@
 # SoftBase Inventory
 
 [![Build status](https://elpatron68.visualstudio.com/SoftBase/_apis/build/status/SoftBase-.NET%20Desktop-CI%20(Auto))](https://elpatron68.visualstudio.com/SoftBase/_build/latest?definitionId=-1)
-![Pre-Release Downloads](https://img.shields.io/github/downloads-pre/elpatron68/softbase-inventory/1.0/total.svg)
+[![License](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://raw.githubusercontent.com/elpatron68/softbase-inventory/master/SoftBase/LICENSE.txt)
 
 SoftBase Inventory is a simple tool to inventory installed programs of one or multiple Windows devices.
 
