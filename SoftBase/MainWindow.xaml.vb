@@ -267,7 +267,7 @@ Class MainWindow
 
 #Region "License menu items"
     Private Sub SoftBase_Click(sender As Object, e As RoutedEventArgs) Handles SoftBase.Click
-        Dim unused = Process.Start("http://www.gnu.de/documents/gpl-3.0.en.html")
+        Dim unused = Process.Start("https://opensource.org/licenses/MIT")
     End Sub
 
     Private Sub CommonLogging_Click(sender As Object, e As RoutedEventArgs) Handles CommonLogging.Click
