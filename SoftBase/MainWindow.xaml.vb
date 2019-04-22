@@ -66,6 +66,7 @@ Class MainWindow
     End Sub
 
     Private Async Sub LoadSoftwareListFromWMI()
+        Softlist.Clear()
         EnableControls(False)
         Mouse.OverrideCursor = Cursors.Wait
 
@@ -164,6 +165,7 @@ Class MainWindow
         Dim tmp = Database.LoadSoftwareListForDevice(device, SnapshotId)
         Dim lastupdate = tmp.Timestamp
         If lastupdate <> "-1" Then
+            Softlist.Clear()
             Softlist = tmp.Item1
             If Softlist.Count > 0 Then
                 UpdateList(Softlist)
