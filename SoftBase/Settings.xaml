@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:SoftBase"
         mc:Ignorable="d"
-        Title="Settings (close dialog to save changes)" Height="150" Width="600" Loaded="MetroWindow_Loaded" Closed="MetroWindow_Closed">
+        Title="Settings (close dialog to accept)" Height="150" Width="600" Loaded="MetroWindow_Loaded" Closed="MetroWindow_Closed">
     <Grid>
         <TextBox x:Name="TxDatabasepath" HorizontalAlignment="Left" Height="23" Margin="10,54,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="470"/>
         <Label Content="Select new or exiting database file" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top"/>
