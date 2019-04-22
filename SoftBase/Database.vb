@@ -205,7 +205,7 @@ Public Class Database
             Try
                 sqlite_conn.Open()
                 Dim sqlite_cmd = sqlite_conn.CreateCommand()
-                sqlite_cmd.CommandText = $"SELECT DEVICEID, NAME, VERSION FROM SOFTWARE WHERE (DEVICEID = {Device.DbID} AND SNAPSHOTID = {SnapshotId}) ORDER BY NAME"
+                sqlite_cmd.CommandText = $"SELECT DEVICEID, NAME, VERSION, SNAPSHOTID FROM SOFTWARE WHERE (DEVICEID = {Device.DbID} AND SNAPSHOTID = {SnapshotId}) ORDER BY NAME"
                 Dim r As SQLiteDataReader = sqlite_cmd.ExecuteReader()
                 If r.HasRows Then
                     While r.Read
