@@ -49,9 +49,14 @@ Yes, you can use this for any commercial project.
 
 SoftBase is Free Open Source Software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-Although you can do quite everything you like with this SoftBase, I ask you not to use this software in a military environment.
+Although you can do quite everything you like with SoftBase, I ask you not to use this software in a military environment.
 
 All third party licenses are linked in the menu `Help` - `Licenses` - `3rd party licenses`.
+
+## Help Wanted
+
+If you have an idea how to translate WPF applications in a cofortable way to other languages: 
+Let me know (or fork this project and create a pull request).
 
 ## Author
 
