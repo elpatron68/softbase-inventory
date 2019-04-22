@@ -34,17 +34,22 @@ Download the latest version from [here](https://butenostfreesen.de/softbase/setu
 
 ## Usage
 
-Start the program, select a (new) database file where to store your inventories in the first dialog and start inventoring your devices. 
+Start the program, select a (new) database file to store your inventories in the first dialog and start inventoring your devices. 
+
+Click `Export` Buttons to export the results to a PDF- or Excel file.
+
+Select a device and a corresponding snapshot to view (or export) saved inventories from the database.
+
 That´s all (for now).
 
 ## License
 
 Before you ask...
-Yes, you can use them for any commercial project.
+Yes, you can use this for any commercial project.
 
 SoftBase is Free Open Source Software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-Although you can do quite everything you like with this SoftBase, I ask you not to use this software in a military environment or enterprise.
+Although you can do quite everything you like with this SoftBase, I ask you not to use this software in a military environment.
 
 All third party licenses are linked in the menu `Help` - `Licenses` - `3rd party licenses`.
 
@@ -52,3 +57,10 @@ All third party licenses are linked in the menu `Help` - `Licenses` - `3rd party
 
 [Markus Busche](mailto:elpatron@mailbox.org?subject=SoftBase)  
 Kiel, Germany  
+
+## Donation
+
+Although this is just a small program, many hours of development have been spent to make it a useful and stable tool.
+
+If you like it and want to support the further development, feel free to donate a small amout of money to the author.
+Just click on the `Donate` button in the main window or see `File`- `Donate` for a Paypal QR code.
