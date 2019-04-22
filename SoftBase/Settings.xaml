@@ -12,6 +12,5 @@
         <Label Content="Select new or exiting database file" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top"/>
         <Button x:Name="BtnBrowse" Content="Browse" HorizontalAlignment="Left" Margin="494,53,0,0" VerticalAlignment="Top" Width="75"/>
         <Label Content="You may save the database file wherever you like eg. in a shared network directory or on a USB device." HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" FontSize="10"/>
-
     </Grid>
 </Controls:MetroWindow>
