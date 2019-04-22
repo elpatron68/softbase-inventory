@@ -160,23 +160,6 @@ Public Class Database
     End Function
 
 
-    Public Shared Sub SaveSoftwareList(ByVal Softlist As List(Of software), ByVal device As Device, ByVal SnapshotID As Long)
-        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
-            sqlite_conn.Open()
-
-            Dim sqlite_cmd = sqlite_conn.CreateCommand()
-            Dim transaction As SQLiteTransaction = sqlite_conn.BeginTransaction()
-            For Each soft In Softlist
-                sqlite_cmd.CommandText = $"INSERT INTO SOFTWARE (DEVICEID, NAME, VERSION, SNAPSHOTID) VALUES ('{device.DbID}', '{soft.Name}', '{soft.Version}', {SnapshotID});"
-                sqlite_cmd.ExecuteNonQuery()
-            Next
-            Try
-                transaction.Commit()
-            Catch ex As Exception
-            End Try
-            sqlite_conn.Close()
-        End Using
-    End Sub
 
     Public Shared Function AddDevice(ByVal device As Device) As Long
         Dim timestamp As String = DateTime.Today.ToShortDateString
@@ -198,6 +181,7 @@ Public Class Database
         Return Id
     End Function
 
+#Region "Load and save software list"
     Public Shared Function LoadSoftwareListForDevice(ByVal Device As Device, ByVal SnapshotId As Integer) As (List(Of software), Timestamp As String)
         Dim Softlist As List(Of software) = New List(Of software)
         Dim ts As String = GetTimeStamp(Device.DbID)
@@ -222,6 +206,25 @@ Public Class Database
         End Using
         Return (Softlist, ts)
     End Function
+
+    Public Shared Sub SaveSoftwareList(ByVal Softlist As List(Of software), ByVal device As Device, ByVal SnapshotID As Long)
+        Using sqlite_conn As SQLiteConnection = New SQLiteConnection($"Data Source={dbfile};Version=3;")
+            sqlite_conn.Open()
+
+            Dim sqlite_cmd = sqlite_conn.CreateCommand()
+            Dim transaction As SQLiteTransaction = sqlite_conn.BeginTransaction()
+            For Each soft In Softlist
+                sqlite_cmd.CommandText = $"INSERT INTO SOFTWARE (DEVICEID, NAME, VERSION, SNAPSHOTID) VALUES ('{device.DbID}', '{soft.Name}', '{soft.Version}', {SnapshotID});"
+                sqlite_cmd.ExecuteNonQuery()
+            Next
+            Try
+                transaction.Commit()
+            Catch ex As Exception
+            End Try
+            sqlite_conn.Close()
+        End Using
+    End Sub
+#End Region
 
     Private Shared Function GetTimeStamp(ByVal DeviceID As Integer) As String
         Dim ts As String = String.Empty
